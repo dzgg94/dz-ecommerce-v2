@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منشئ صفحات الهبوط - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛍️</div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">DZ Store</div>
+        <div class="sidebar-logo-plan" data-user-plan>أساسي</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">الرئيسية</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>لوحة التحكم</a>
+      <div class="nav-section">المتجر</div>
+      <a href="products.html" class="nav-item"><span class="nav-icon">📦</span>المنتجات</a>
+      <a href="orders.html" class="nav-item"><span class="nav-icon">🛒</span>الطلبات</a>
+      <a href="customers.html" class="nav-item"><span class="nav-icon">👥</span>العملاء</a>
+      <div class="nav-section">الإعدادات</div>
+      <a href="store-builder.html" class="nav-item"><span class="nav-icon">🏪</span>إعدادات المتجر</a>
+      <a href="landing-builder.html" class="nav-item active"><span class="nav-icon">📄</span>صفحات الهبوط</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" data-user-avatar>م</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-user-name>المستخدم</div>
+          <div class="sidebar-user-email" data-user-email>email</div>
+        </div>
+      </div>
+      <button class="nav-item w-full" data-action="logout" style="border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-align:right;font-family:inherit;font-size:14px;font-weight:500;margin-top:4px;">
+        <span class="nav-icon">🚪</span>تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="breadcrumb">
+          <a href="dashboard.html" class="breadcrumb-item">الرئيسية</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-item active">صفحات الهبوط</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">منشئ صفحات الهبوط 📄</h1>
+          <p class="page-subtitle">أنشئ صفحات هبوط جذابة لرفع معدل التحويل</p>
+        </div>
+      </div>
+
+      <!-- Template Selection -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title">1️⃣ اختر قالباً</div>
+        </div>
+        <div class="card-body">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+            
+            <!-- Template 1: Bold/Aggressive -->
+            <div class="template-card" data-template="bold" onclick="selectTemplate('bold')" style="border:3px solid transparent;border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;">
+              <div style="background:linear-gradient(135deg,#E17055,#FDCB6E);padding:20px;color:white;text-align:center;min-height:140px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
+                <div style="font-size:28px;">🔥</div>
+                <div style="font-size:16px;font-weight:900;">قالب النار</div>
+                <div style="font-size:12px;opacity:0.8;">جريء وملفت للانتباه</div>
+                <div style="background:rgba(0,0,0,0.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;margin-top:4px;">عداد تنازلي + عروض</div>
+              </div>
+              <div style="background:white;padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--gray);">احمر / برتقالي</div>
+            </div>
+
+            <!-- Template 2: Elegant -->
+            <div class="template-card" data-template="elegant" onclick="selectTemplate('elegant')" style="border:3px solid transparent;border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;">
+              <div style="background:linear-gradient(135deg,#2D3436,#6C5CE7);padding:20px;color:white;text-align:center;min-height:140px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
+                <div style="font-size:28px;">✨</div>
+                <div style="font-size:16px;font-weight:900;">قالب الفخامة</div>
+                <div style="font-size:12px;opacity:0.8;">أنيق وراقي</div>
+                <div style="background:rgba(255,215,0,0.2);border:1px solid gold;border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;margin-top:4px;color:gold;">آراء العملاء + ثقة</div>
+              </div>
+              <div style="background:white;padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--gray);">داكن / ذهبي</div>
+            </div>
+
+            <!-- Template 3: Minimal -->
+            <div class="template-card" data-template="minimal" onclick="selectTemplate('minimal')" style="border:3px solid transparent;border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.3s;">
+              <div style="background:linear-gradient(135deg,#6C5CE7,#00CEC9);padding:20px;color:white;text-align:center;min-height:140px;display:flex;flex-direction:column;justify-content:center;gap:8px;">
+                <div style="font-size:28px;">💎</div>
+                <div style="font-size:16px;font-weight:900;">قالب النظافة</div>
+                <div style="font-size:12px;opacity:0.8;">بسيط وواضح</div>
+                <div style="background:rgba(255,255,255,0.2);border-radius:20px;padding:6px 16px;font-size:12px;font-weight:700;margin-top:4px;">سهل وسريع</div>
+              </div>
+              <div style="background:white;padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--gray);">بنفسجي / فيروزي</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <!-- Customization Panel -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">2️⃣ تخصيص المحتوى</div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label required">عنوان الصفحة الرئيسي</label>
+                <input type="text" class="form-control" id="lpTitle" placeholder="سماعات بلوتوث احترافية بسعر خاص 🔥" value="عروض لا تفوتك! 🔥">
+              </div>
+              <div class="form-group">
+                <label class="form-label">العنوان الفرعي</label>
+                <input type="text" class="form-control" id="lpSubtitle" placeholder="جودة استثنائية، سعر لا يصدق" value="شحن مجاني لجميع ولايات الجزائر 🚚">
+              </div>
+              <div class="form-group">
+                <label class="form-label">رابط صورة المنتج</label>
+                <input type="url" class="form-control" id="lpImage" placeholder="https://example.com/product.jpg" dir="ltr" style="text-align:right;">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div class="form-group">
+                  <label class="form-label">السعر الأصلي (دج)</label>
+                  <input type="number" class="form-control" id="lpOriginalPrice" placeholder="5000">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">سعر التخفيض (دج) *</label>
+                  <input type="number" class="form-control" id="lpDiscountPrice" placeholder="2500" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">نص زر الطلب</label>
+                <input type="text" class="form-control" id="lpBtnText" value="اطلب الآن 🛒">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">⏱️ العداد التنازلي</div>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <label class="checkbox-label" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;">
+                  <input type="checkbox" id="enableCountdown" checked style="accent-color:var(--primary);width:16px;height:16px;">
+                  تفعيل العداد التنازلي
+                </label>
+              </div>
+              <div id="countdownSettings">
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-size:12px;">الساعات</label>
+                    <input type="number" class="form-control" id="cdHours" value="23" min="0" max="99">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-size:12px;">الدقائق</label>
+                    <input type="number" class="form-control" id="cdMinutes" value="59" min="0" max="59">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" style="font-size:12px;">الثواني</label>
+                    <input type="number" class="form-control" id="cdSeconds" value="59" min="0" max="59">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🛍️ ربط المنتج</div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">اختر المنتج من متجرك</label>
+                <select class="form-control" id="lpProductSelect">
+                  <option value="">-- اختر منتجاً --</option>
+                </select>
+              </div>
+              <div class="form-text">سيتم استخدام هذا المنتج في نموذج الطلب</div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg w-full" onclick="generateLandingPage()">
+            🚀 إنشاء صفحة الهبوط
+          </button>
+        </div>
+
+        <!-- Preview -->
+        <div>
+          <div class="card" style="position:sticky;top:80px;">
+            <div class="card-header">
+              <div class="card-title">👁️ معاينة حية</div>
+              <div style="font-size:12px;color:var(--gray);">تتحدث تلقائياً</div>
+            </div>
+            <div class="card-body" style="padding:0;">
+              <div id="lpPreview" style="min-height:500px;overflow:hidden;border-radius:0 0 12px 12px;">
+                <!-- Preview injected here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- Generated Page Modal -->
+<div class="modal-overlay" id="generatedModal">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-header">
+      <h2 class="modal-title">🎉 تم إنشاء صفحة الهبوط!</h2>
+      <button class="modal-close" onclick="document.getElementById('generatedModal').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-success">✅ تم إنشاء صفحة هبوط كاملة وجاهزة للنشر</div>
+      <div style="margin-bottom:16px;">
+        <label class="form-label">انسخ الكود HTML وأضفه إلى موقعك:</label>
+        <div style="position:relative;">
+          <textarea id="generatedCode" class="form-control" rows="15" readonly dir="ltr" style="font-family:monospace;font-size:12px;text-align:left;white-space:pre;overflow-x:auto;"></textarea>
+          <button onclick="copyCode()" class="btn btn-primary btn-sm" style="position:absolute;top:8px;left:8px;">📋 نسخ</button>
+        </div>
+      </div>
+      <div class="alert alert-info">💡 يمكنك حفظ الكود كملف HTML ونشره على أي استضافة أو رفعه على Vercel.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('generatedModal').classList.remove('show')">إغلاق</button>
+      <button class="btn btn-primary" onclick="downloadPage()">⬇️ تنزيل كملف HTML</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  if (!initDashboard()) {}
+
+  let selectedTemplate = 'minimal';
+  let products = [];
+  let storeData = null;
+
+  // Load products for dropdown
+  async function loadProducts() {
+    try {
+      const result = await api.getProducts({ limit: 50, status: 'available' });
+      products = result.data || [];
+      const select = document.getElementById('lpProductSelect');
+      products.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p._id;
+        opt.textContent = `${p.name} - ${formatCurrency(p.price)}`;
+        select.appendChild(opt);
+      });
+    } catch (e) {}
+  }
+
+  // Load store data
+  async function loadStoreData() {
+    try {
+      const result = await api.getStore();
+      storeData = result.data;
+    } catch (e) {}
+  }
+
+  function selectTemplate(name) {
+    selectedTemplate = name;
+    document.querySelectorAll('.template-card').forEach(card => {
+      card.style.border = '3px solid transparent';
+    });
+    const selected = document.querySelector(`[data-template="${name}"]`);
+    if (selected) {
+      selected.style.border = '3px solid var(--primary)';
+    }
+    updatePreview();
+  }
+
+  const templates = {
+    bold: {
+      bg: 'linear-gradient(135deg, #E17055, #FDCB6E)',
+      btn: '#E17055',
+      text: 'white',
+      accentBg: 'rgba(0,0,0,0.2)'
+    },
+    elegant: {
+      bg: 'linear-gradient(135deg, #2D3436, #6C5CE7)',
+      btn: '#ffd32a',
+      btnText: '#2D3436',
+      text: 'white',
+      accentBg: 'rgba(255,215,0,0.1)'
+    },
+    minimal: {
+      bg: 'linear-gradient(135deg, #6C5CE7, #00CEC9)',
+      btn: '#6C5CE7',
+      text: 'white',
+      accentBg: 'rgba(255,255,255,0.15)'
+    }
+  };
+
+  function updatePreview() {
+    const t = templates[selectedTemplate] || templates.minimal;
+    const title = document.getElementById('lpTitle').value || 'عنوان الصفحة';
+    const subtitle = document.getElementById('lpSubtitle').value || 'العنوان الفرعي';
+    const image = document.getElementById('lpImage').value;
+    const originalPrice = document.getElementById('lpOriginalPrice').value;
+    const discountPrice = document.getElementById('lpDiscountPrice').value;
+    const btnText = document.getElementById('lpBtnText').value || 'اطلب الآن';
+    const showCountdown = document.getElementById('enableCountdown').checked;
+
+    document.getElementById('lpPreview').innerHTML = `
+      <div style="background:${t.bg};padding:32px 20px;text-align:center;color:${t.text};">
+        ${image ? `<img src="${escapeHtml(image)}" style="max-height:180px;border-radius:12px;margin-bottom:16px;box-shadow:0 8px 30px rgba(0,0,0,0.3);">` : '<div style="height:120px;background:rgba(255,255,255,0.1);border-radius:12px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;font-size:40px;">📦</div>'}
+        <h1 style="font-size:22px;font-weight:900;color:${t.text};margin-bottom:8px;">${escapeHtml(title)}</h1>
+        <p style="font-size:14px;opacity:0.85;margin-bottom:16px;">${escapeHtml(subtitle)}</p>
+        ${originalPrice ? `<div style="font-size:14px;opacity:0.6;text-decoration:line-through;margin-bottom:4px;">${formatCurrency(parseInt(originalPrice))}</div>` : ''}
+        ${discountPrice ? `<div style="font-size:28px;font-weight:900;color:${selectedTemplate==='elegant'?'#ffd32a':t.text};margin-bottom:16px;">${formatCurrency(parseInt(discountPrice))}</div>` : ''}
+        ${showCountdown ? `
+          <div style="display:inline-flex;gap:12px;background:${t.accentBg};border-radius:10px;padding:10px 16px;margin-bottom:16px;">
+            <div style="text-align:center;"><span style="font-size:24px;font-weight:900;display:block;" id="prev-h">23</span><span style="font-size:10px;opacity:0.7;">ساعة</span></div>
+            <div style="font-size:20px;font-weight:900;opacity:0.5;">:</div>
+            <div style="text-align:center;"><span style="font-size:24px;font-weight:900;display:block;" id="prev-m">59</span><span style="font-size:10px;opacity:0.7;">دقيقة</span></div>
+            <div style="font-size:20px;font-weight:900;opacity:0.5;">:</div>
+            <div style="text-align:center;"><span style="font-size:24px;font-weight:900;display:block;" id="prev-s">59</span><span style="font-size:10px;opacity:0.7;">ثانية</span></div>
+          </div>
+        ` : ''}
+        <button style="background:${t.btn};color:${t.btnText||'white'};border:none;padding:14px 32px;border-radius:12px;font-family:Cairo,sans-serif;font-size:16px;font-weight:800;cursor:pointer;width:100%;margin-bottom:16px;">
+          ${escapeHtml(btnText)}
+        </button>
+        <div style="display:flex;justify-content:center;gap:16px;font-size:12px;opacity:0.8;">
+          <span>✅ توصيل سريع</span>
+          <span>💰 دفع عند الاستلام</span>
+          <span>🔒 ضمان الجودة</span>
+        </div>
+      </div>
+    `;
+  }
+
+  // Auto-update preview
+  ['lpTitle', 'lpSubtitle', 'lpImage', 'lpOriginalPrice', 'lpDiscountPrice', 'lpBtnText'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePreview);
+  });
+  document.getElementById('enableCountdown').addEventListener('change', updatePreview);
+
+  function generateLandingPage() {
+    const t = templates[selectedTemplate] || templates.minimal;
+    const title = document.getElementById('lpTitle').value || 'عرض رائع';
+    const subtitle = document.getElementById('lpSubtitle').value || '';
+    const image = document.getElementById('lpImage').value || '';
+    const originalPrice = document.getElementById('lpOriginalPrice').value || '';
+    const discountPrice = document.getElementById('lpDiscountPrice').value || '0';
+    const btnText = document.getElementById('lpBtnText').value || 'اطلب الآن';
+    const showCountdown = document.getElementById('enableCountdown').checked;
+    const cdH = document.getElementById('cdHours').value || '23';
+    const cdM = document.getElementById('cdMinutes').value || '59';
+    const cdS = document.getElementById('cdSeconds').value || '59';
+
+    const selectedProduct = document.getElementById('lpProductSelect').value;
+    const product = products.find(p => p._id === selectedProduct);
+    const merchant = Auth.getMerchant();
+    const merchantId = merchant?.merchantId || merchant?.id || '';
+    const store = storeData;
+
+    const wilayaOptions = ALGERIA_WILAYAS.map((w, i) => 
+      `<option value="${w}">${(i+1).toString().padStart(2,'0')} - ${w}</option>`
+    ).join('');
+
+    const html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(title)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Cairo',sans-serif; direction:rtl; background:#f0f2f5; }
+.hero { background:${t.bg}; padding:40px 20px; text-align:center; color:white; }
+.hero h1 { font-size:2rem; font-weight:900; margin-bottom:12px; }
+.hero p { font-size:1rem; opacity:0.85; margin-bottom:20px; }
+.price-original { font-size:16px; opacity:0.6; text-decoration:line-through; margin-bottom:4px; }
+.price-discount { font-size:2.5rem; font-weight:900; margin-bottom:20px; ${selectedTemplate==='elegant'?'color:#ffd32a;':''} }
+.countdown { display:inline-flex; gap:12px; background:${t.accentBg}; border-radius:12px; padding:12px 20px; margin-bottom:20px; }
+.cd-unit { text-align:center; }
+.cd-val { font-size:2rem; font-weight:900; display:block; }
+.cd-label { font-size:11px; opacity:0.7; }
+.cd-sep { font-size:1.5rem; font-weight:900; opacity:0.5; margin-top:4px; }
+.order-btn { background:${t.btn}; color:${t.btnText||'white'}; border:none; padding:18px 40px; border-radius:14px; font-family:Cairo; font-size:1.1rem; font-weight:900; cursor:pointer; width:100%; max-width:400px; margin-top:10px; transition:transform 0.2s; }
+.order-btn:hover { transform:translateY(-3px); }
+.trust { display:flex; justify-content:center; gap:24px; margin-top:16px; font-size:13px; opacity:0.85; flex-wrap:wrap; }
+.product-img { max-height:280px; border-radius:16px; margin:0 auto 20px; box-shadow:0 10px 40px rgba(0,0,0,0.25); display:block; }
+.checkout-section { max-width:520px; margin:0 auto; padding:32px 20px; }
+.checkout-card { background:white; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,0.1); padding:32px; }
+.checkout-title { font-size:20px; font-weight:800; margin-bottom:24px; text-align:center; }
+.form-control { width:100%; padding:14px 16px; border:2px solid #dfe6e9; border-radius:10px; font-family:Cairo; font-size:14px; direction:rtl; margin-bottom:14px; transition:border 0.2s; }
+.form-control:focus { outline:none; border-color:${t.btn}; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.submit-btn { width:100%; padding:16px; background:${t.bg}; color:white; border:none; border-radius:12px; font-family:Cairo; font-size:17px; font-weight:900; cursor:pointer; margin-top:8px; }
+.success-msg { display:none; text-align:center; padding:32px; }
+.success-msg .icon { font-size:64px; margin-bottom:16px; }
+.error-msg { color:#E17055; font-size:13px; margin-bottom:8px; display:none; }
+@media(max-width:480px) { .form-row { grid-template-columns:1fr; } .hero h1 { font-size:1.5rem; } .price-discount { font-size:2rem; } }
+</style>
+</head>
+<body>
+<div class="hero">
+  ${image ? `<img src="${escapeHtml(image)}" class="product-img">` : ''}
+  <h1>${escapeHtml(title)}</h1>
+  <p>${escapeHtml(subtitle)}</p>
+  ${originalPrice ? `<div class="price-original">${parseInt(originalPrice).toLocaleString('ar')} دج</div>` : ''}
+  <div class="price-discount">${parseInt(discountPrice).toLocaleString('ar')} دج</div>
+  ${showCountdown ? `
+  <div class="countdown" id="countdown">
+    <div class="cd-unit"><span class="cd-val" id="cd-h">${cdH}</span><span class="cd-label">ساعة</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-val" id="cd-m">${cdM}</span><span class="cd-label">دقيقة</span></div>
+    <span class="cd-sep">:</span>
+    <div class="cd-unit"><span class="cd-val" id="cd-s">${cdS}</span><span class="cd-label">ثانية</span></div>
+  </div>
+  ` : ''}
+  <button class="order-btn" onclick="document.querySelector('.checkout-section').scrollIntoView({behavior:'smooth'})">${escapeHtml(btnText)}</button>
+  <div class="trust">
+    <span>✅ توصيل لجميع الولايات</span>
+    <span>💰 دفع عند الاستلام</span>
+    <span>🔒 ضمان الجودة</span>
+    <span>📞 دعم 24/7</span>
+  </div>
+</div>
+
+<div class="checkout-section">
+  <div class="checkout-card">
+    <div class="success-msg" id="successMsg">
+      <div class="icon">🎉</div>
+      <h2 style="font-size:22px;font-weight:900;margin-bottom:8px;">تم استلام طلبك!</h2>
+      <p style="color:#636e72;margin-bottom:16px;">سنتواصل معك في أقرب وقت لتأكيد الطلب</p>
+      <div id="orderNumDisplay" style="background:#f0f7ff;border-radius:10px;padding:12px 20px;font-weight:700;color:#6C5CE7;"></div>
+    </div>
+    <div id="checkoutForm">
+      <h2 class="checkout-title">📝 اطلب الآن - ${escapeHtml(btnText)}</h2>
+      <div class="error-msg" id="formError"></div>
+      <input type="text" class="form-control" id="customerName" placeholder="الاسم الكامل *">
+      <input type="tel" class="form-control" id="customerPhone" placeholder="رقم الهاتف * (05/06/07...)" dir="ltr" style="text-align:right;">
+      <div class="form-row">
+        <select class="form-control" id="customerWilaya">
+          <option value="">-- اختر الولاية --</option>
+          ${wilayaOptions}
+        </select>
+        <input type="text" class="form-control" id="customerCommune" placeholder="البلدية">
+      </div>
+      <input type="text" class="form-control" id="customerAddress" placeholder="العنوان التفصيلي (اختياري)">
+      <textarea class="form-control" id="orderNotes" placeholder="ملاحظات (اختياري)" rows="2"></textarea>
+      <button class="submit-btn" onclick="submitOrder()">🛒 اتمام الطلب - ${parseInt(discountPrice).toLocaleString('ar')} دج</button>
+    </div>
+  </div>
+</div>
+
+<div style="background:#2D3436;color:rgba(255,255,255,0.5);text-align:center;padding:20px;font-size:13px;margin-top:40px;">
+  مدعوم من <a href="/" style="color:#a29bfe;font-weight:700;">DZ Store</a> 🇩🇿
+</div>
+
+<script>
+${showCountdown ? `
+var h=${cdH}, m=${cdM}, s=${cdS};
+setInterval(function(){
+  s--;
+  if(s<0){s=59;m--;if(m<0){m=59;h--;if(h<0){h=0;m=0;s=0;}}}
+  document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
+},1000);
+` : ''}
+
+async function submitOrder(){
+  var name=document.getElementById('customerName').value.trim();
+  var phone=document.getElementById('customerPhone').value.trim().replace(/[\\s\\-\\.]/g,'');
+  var wilaya=document.getElementById('customerWilaya').value;
+  var commune=document.getElementById('customerCommune').value.trim();
+  var address=document.getElementById('customerAddress').value.trim();
+  var notes=document.getElementById('orderNotes').value.trim();
+  var errEl=document.getElementById('formError');
+  errEl.style.display='none';
+
+  if(!name){errEl.textContent='الاسم مطلوب';errEl.style.display='block';return;}
+  if(!/^(05|06|07)[0-9]{8}$/.test(phone)){errEl.textContent='رقم الهاتف غير صحيح - يجب أن يبدأ بـ 05 أو 06 أو 07';errEl.style.display='block';return;}
+  if(!wilaya){errEl.textContent='يرجى اختيار الولاية';errEl.style.display='block';return;}
+
+  var btn=document.querySelector('.submit-btn');
+  btn.disabled=true;
+  btn.textContent='جاري إرسال الطلب...';
+
+  try{
+    var res=await fetch('/api/orders',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        merchantId:'${merchantId}',
+        storeId:'${store?._id||''}',
+        customer:{name,phone,wilaya,commune,address},
+        product:{
+          id:'${selectedProduct||''}',
+          name:'${escapeHtml(product?.name||title)}',
+          price:${discountPrice||0}
+        },
+        notes
+      })
+    });
+    var data=await res.json();
+    if(res.ok&&data.success){
+      document.getElementById('checkoutForm').style.display='none';
+      document.getElementById('successMsg').style.display='block';
+      document.getElementById('orderNumDisplay').textContent='رقم طلبك: '+data.data.orderNumber;
+    }else{
+      errEl.textContent=data.error||'حدث خطأ - يرجى المحاولة مرة أخرى';
+      errEl.style.display='block';
+      btn.disabled=false;
+      btn.textContent='🛒 اتمام الطلب';
+    }
+  }catch(e){
+    errEl.textContent='خطأ في الاتصال';
+    errEl.style.display='block';
+    btn.disabled=false;
+    btn.textContent='🛒 اتمام الطلب';
+  }
+}
+<\/script>
+</body>
+</html>`;
+
+    document.getElementById('generatedCode').value = html;
+    document.getElementById('generatedModal').classList.add('show');
+  }
+
+  function copyCode() {
+    const textarea = document.getElementById('generatedCode');
+    textarea.select();
+    navigator.clipboard.writeText(textarea.value).then(() => {
+      Toast.success('تم النسخ', 'تم نسخ الكود بنجاح');
+    });
+  }
+
+  function downloadPage() {
+    const code = document.getElementById('generatedCode').value;
+    const title = document.getElementById('lpTitle').value || 'landing-page';
+    const blob = new Blob([code], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title.replace(/[^a-z0-9\u0600-\u06ff]/gi, '-').slice(0,30)}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // Default template
+  selectTemplate('minimal');
+
+  // Load data
+  Promise.all([loadProducts(), loadStoreData()]).then(() => {
+    updatePreview();
+  });
+</script>
+</body>
+</html>

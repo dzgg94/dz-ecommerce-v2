@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .auth-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .auth-logo a {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 900;
+      color: white;
+      text-decoration: none;
+    }
+
+    .auth-logo-icon {
+      width: 46px;
+      height: 46px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .auth-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+
+    .auth-card-header {
+      padding: 36px 36px 0;
+      text-align: center;
+    }
+
+    .auth-title {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .auth-subtitle {
+      font-size: 14px;
+      color: var(--gray);
+      margin: 0;
+    }
+
+    .auth-card-body {
+      padding: 32px 36px;
+    }
+
+    .auth-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    .input-with-icon .form-control {
+      padding-right: 44px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--gray-light);
+      padding: 4px;
+    }
+
+    .password-toggle:hover { color: var(--gray); }
+
+    .auth-form .form-control {
+      height: 52px;
+      font-size: 15px;
+      border-radius: 12px;
+    }
+
+    .auth-submit-btn {
+      width: 100%;
+      height: 52px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+    }
+
+    .auth-submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(102,126,234,0.5);
+    }
+
+    .auth-submit-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      color: var(--gray-light);
+      font-size: 13px;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .auth-link-row {
+      text-align: center;
+      font-size: 14px;
+      color: var(--gray);
+      margin-top: 20px;
+    }
+
+    .auth-link-row a {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .auth-error {
+      background: rgba(225,112,85,0.1);
+      border: 1px solid rgba(225,112,85,0.2);
+      border-right: 4px solid var(--danger);
+      color: #c0392b;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .auth-error.show { display: flex; align-items: center; gap: 10px; }
+
+    .remember-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--gray);
+      cursor: pointer;
+    }
+
+    .checkbox-label input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+    }
+
+    .forgot-link {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .auth-features {
+      margin-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .auth-feature {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .spin {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-wrapper">
+    <!-- Logo -->
+    <div class="auth-logo">
+      <a href="index.html">
+        <div class="auth-logo-icon">🛍️</div>
+        DZ Store
+      </a>
+    </div>
+
+    <!-- Auth Card -->
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <h1 class="auth-title">مرحباً بعودتك 👋</h1>
+        <p class="auth-subtitle">سجّل دخولك للوصول إلى لوحة التحكم</p>
+      </div>
+
+      <div class="auth-card-body">
+        <!-- Error Message -->
+        <div class="auth-error" id="authError">
+          <span>⚠️</span>
+          <span id="authErrorText"></span>
+        </div>
+
+        <form id="loginForm" class="auth-form" novalidate>
+          <!-- Email -->
+          <div class="form-group">
+            <label class="form-label required">البريد الإلكتروني</label>
+            <div class="input-with-icon">
+              <span class="input-icon">📧</span>
+              <input 
+                type="email" 
+                class="form-control" 
+                id="email"
+                name="email"
+                placeholder="example@domain.com"
+                required
+                autocomplete="email"
+                dir="ltr"
+                style="text-align:right;"
+              >
+            </div>
+            <div class="form-error" id="emailError">يرجى إدخال بريد إلكتروني صحيح</div>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="form-label required">كلمة المرور</label>
+            <div class="input-with-icon">
+              <span class="input-icon">🔒</span>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password"
+                name="password"
+                placeholder="أدخل كلمة المرور"
+                required
+                autocomplete="current-password"
+              >
+              <button type="button" class="password-toggle" id="passwordToggle" title="إظهار/إخفاء كلمة المرور">
+                👁
+              </button>
+            </div>
+            <div class="form-error" id="passwordError">كلمة المرور مطلوبة</div>
+          </div>
+
+          <!-- Remember / Forgot -->
+          <div class="remember-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe">
+              تذكرني
+            </label>
+            <a href="#" class="forgot-link">نسيت كلمة المرور؟</a>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="auth-submit-btn" id="submitBtn">
+            تسجيل الدخول
+          </button>
+        </form>
+
+        <!-- Register Link -->
+        <div class="auth-link-row">
+          ليس لديك حساب؟ 
+          <a href="register.html">سجّل مجاناً ←</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="auth-features">
+      <div class="auth-feature">🔐 تشفير كامل</div>
+      <div class="auth-feature">🚀 30 يوم مجاني</div>
+      <div class="auth-feature">🇩🇿 للسوق الجزائري</div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Redirect if already logged in
+    Auth.redirectIfLoggedIn('/dashboard.html');
+
+    // Password toggle
+    document.getElementById('passwordToggle').addEventListener('click', function() {
+      const input = document.getElementById('password');
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      this.textContent = isPassword ? '🙈' : '👁';
+    });
+
+    // Form submission
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const submitBtn = document.getElementById('submitBtn');
+      const errorDiv = document.getElementById('authError');
+      const errorText = document.getElementById('authErrorText');
+
+      // Clear errors
+      errorDiv.classList.remove('show');
+      document.querySelectorAll('.form-error').forEach(el => el.classList.remove('show'));
+      document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+
+      // Validate
+      let isValid = true;
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('email').classList.add('is-invalid');
+        document.getElementById('emailError').classList.add('show');
+        isValid = false;
+      }
+
+      if (!password) {
+        document.getElementById('password').classList.add('is-invalid');
+        document.getElementById('passwordError').classList.add('show');
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Show loading
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spin"></span> جاري التحقق...';
+
+      try {
+        const result = await api.login({ email, password });
+
+        if (result.success) {
+          Auth.setSession(result.token, result.merchant);
+          Toast.success('تم تسجيل الدخول بنجاح', 'مرحباً بك في DZ Store');
+
+          setTimeout(() => {
+            window.location.href = '/dashboard.html';
+          }, 800);
+        }
+      } catch (err) {
+        errorText.textContent = err.message || 'حدث خطأ في تسجيل الدخول';
+        errorDiv.classList.add('show');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'تسجيل الدخول';
+      }
+    });
+
+    // Clear error on input
+    ['email', 'password'].forEach(field => {
+      document.getElementById(field).addEventListener('input', function() {
+        this.classList.remove('is-invalid');
+        document.getElementById(field + 'Error')?.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>

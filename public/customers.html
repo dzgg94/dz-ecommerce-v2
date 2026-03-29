@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>العملاء - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛍️</div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">DZ Store</div>
+        <div class="sidebar-logo-plan" data-user-plan>أساسي</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">الرئيسية</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>لوحة التحكم</a>
+      <div class="nav-section">المتجر</div>
+      <a href="products.html" class="nav-item"><span class="nav-icon">📦</span>المنتجات</a>
+      <a href="orders.html" class="nav-item"><span class="nav-icon">🛒</span>الطلبات</a>
+      <a href="customers.html" class="nav-item active"><span class="nav-icon">👥</span>العملاء</a>
+      <div class="nav-section">الإعدادات</div>
+      <a href="store-builder.html" class="nav-item"><span class="nav-icon">🏪</span>إعدادات المتجر</a>
+      <a href="landing-builder.html" class="nav-item"><span class="nav-icon">📄</span>صفحات الهبوط</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" data-user-avatar>م</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-user-name>المستخدم</div>
+          <div class="sidebar-user-email" data-user-email>email</div>
+        </div>
+      </div>
+      <button class="nav-item w-full" data-action="logout" style="border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-align:right;font-family:inherit;font-size:14px;font-weight:500;margin-top:4px;">
+        <span class="nav-icon">🚪</span>تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="breadcrumb">
+          <a href="dashboard.html" class="breadcrumb-item">الرئيسية</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-item active">العملاء</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">العملاء 👥</h1>
+          <p class="page-subtitle" id="customersCount">جاري التحميل...</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid" id="customerStats" style="margin-bottom:24px;">
+        <div class="stat-card primary">
+          <div class="stat-icon primary">👥</div>
+          <div class="stat-info">
+            <div class="stat-value" id="totalCustomers">-</div>
+            <div class="stat-label">إجمالي العملاء</div>
+          </div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-icon success">💰</div>
+          <div class="stat-info">
+            <div class="stat-value" id="totalRevenue">-</div>
+            <div class="stat-label">إجمالي الإيرادات</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchInput" placeholder="ابحث بالاسم أو الهاتف...">
+        </div>
+        <select class="form-control" id="sortFilter" style="max-width:180px;">
+          <option value="totalOrders">ترتيب: أكثر طلباً</option>
+          <option value="totalSpent">ترتيب: أعلى إنفاق</option>
+          <option value="lastOrder">ترتيب: آخر طلب</option>
+        </select>
+      </div>
+
+      <!-- Customers Table -->
+      <div class="orders-table-card">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>العميل</th>
+                <th>الولاية</th>
+                <th>إجمالي الطلبات</th>
+                <th>إجمالي الإنفاق</th>
+                <th>معدل التوصيل</th>
+                <th>آخر طلب</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="customersBody">
+              <tr><td colspan="8" style="text-align:center;padding:60px;">
+                <div class="spinner"></div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  if (!initDashboard()) {}
+
+  let currentPage = 1;
+
+  async function loadCustomers(page = 1) {
+    currentPage = page;
+    const search = document.getElementById('searchInput').value;
+    const sort = document.getElementById('sortFilter').value;
+
+    const tbody = document.getElementById('customersBody');
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;"><div class="spinner"></div></td></tr>';
+
+    try {
+      const result = await api.getCustomers({ page, limit: 20, search, sort });
+      
+      document.getElementById('customersCount').textContent = `${result.total || 0} عميل`;
+      document.getElementById('totalCustomers').textContent = result.stats?.totalCustomers || 0;
+      document.getElementById('totalRevenue').textContent = formatCurrency(result.stats?.totalRevenue || 0);
+
+      renderCustomers(result.data || [], result.page || 1);
+      renderPagination(result.pages || 1, result.page || 1);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  function renderCustomers(customers, startFrom) {
+    const tbody = document.getElementById('customersBody');
+
+    if (customers.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:60px;color:var(--gray);">
+        <div style="font-size:48px;margin-bottom:12px;">👤</div>
+        <div style="font-weight:600;">لا يوجد عملاء بعد</div>
+        <div style="font-size:13px;margin-top:4px;">ستظهر هنا بيانات العملاء بعد أول طلب</div>
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = customers.map((customer, i) => {
+      const deliveryRate = Math.round(customer.deliveryRate || 0);
+      const rateColor = deliveryRate >= 70 ? 'var(--success)' : deliveryRate >= 40 ? '#d68910' : 'var(--danger)';
+      
+      return `
+      <tr>
+        <td style="color:var(--gray-light);font-size:13px;">${((startFrom-1)*20)+i+1}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;color:white;font-weight:700;flex-shrink:0;">
+              ${escapeHtml(customer.name?.[0] || '?')}
+            </div>
+            <div>
+              <div style="font-weight:700;">${escapeHtml(customer.name || 'غير معروف')}</div>
+              <div style="font-size:12px;color:var(--gray);" dir="ltr">${escapeHtml(customer.phone || '')}</div>
+            </div>
+          </div>
+        </td>
+        <td>${escapeHtml(customer.wilaya || '-')}</td>
+        <td>
+          <span style="font-weight:700;font-size:16px;">${customer.totalOrders || 0}</span>
+          <span style="font-size:12px;color:var(--gray);"> طلب</span>
+        </td>
+        <td style="font-weight:700;color:var(--success);">${formatCurrency(customer.totalSpent || 0)}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;max-width:60px;">
+              <div style="width:${deliveryRate}%;height:100%;background:${rateColor};border-radius:3px;"></div>
+            </div>
+            <span style="font-size:13px;font-weight:700;color:${rateColor};">${deliveryRate}%</span>
+          </div>
+        </td>
+        <td style="font-size:12px;color:var(--gray);">${formatDateShort(customer.lastOrder)}</td>
+        <td>
+          <a href="orders.html?search=${encodeURIComponent(customer.phone)}" class="btn btn-ghost btn-sm">
+            عرض الطلبات
+          </a>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderPagination(totalPages, currentP) {
+    const pag = document.getElementById('pagination');
+    if (totalPages <= 1) { pag.style.display = 'none'; return; }
+    
+    pag.style.display = 'flex';
+    let html = `<button class="page-btn" onclick="loadCustomers(${currentP-1})" ${currentP===1?'disabled':''}>‹</button>`;
+    for (let i = 1; i <= Math.min(totalPages, 10); i++) {
+      html += `<button class="page-btn ${i===currentP?'active':''}" onclick="loadCustomers(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" onclick="loadCustomers(${currentP+1})" ${currentP===totalPages?'disabled':''}>›</button>`;
+    pag.innerHTML = html;
+  }
+
+  const debouncedSearch = debounce(() => loadCustomers(1), 400);
+  document.getElementById('searchInput').addEventListener('input', debouncedSearch);
+  document.getElementById('sortFilter').addEventListener('change', () => loadCustomers(1));
+
+  loadCustomers();
+</script>
+</body>
+</html>

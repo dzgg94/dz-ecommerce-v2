@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'No build step'",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/store/:subdomain", "destination": "/store/index.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/products", "destination": "/products.html" },
+    { "source": "/orders", "destination": "/orders.html" },
+    { "source": "/customers", "destination": "/customers.html" },
+    { "source": "/store-builder", "destination": "/store-builder.html" },
+    { "source": "/landing-builder", "destination": "/landing-builder.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/register", "destination": "/register.html" }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,PATCH,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    },
+    {
+      "source": "/css/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
+    },
+    {
+      "source": "/js/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
+    }
+  ],
+  "env": {
+    "MONGODB_URI": "@mongodb-uri",
+    "JWT_SECRET": "@jwt-secret"
+  }
+}

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛍️</div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">DZ Store</div>
+        <div class="sidebar-logo-plan" data-user-plan>أساسي</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section">الرئيسية</div>
+      <a href="dashboard.html" class="nav-item active" data-href="dashboard">
+        <span class="nav-icon">📊</span>
+        لوحة التحكم
+      </a>
+
+      <div class="nav-section">المتجر</div>
+      <a href="products.html" class="nav-item" data-href="products">
+        <span class="nav-icon">📦</span>
+        المنتجات
+      </a>
+      <a href="orders.html" class="nav-item" data-href="orders">
+        <span class="nav-icon">🛒</span>
+        الطلبات
+        <span class="nav-badge" id="pendingBadge" style="display:none">0</span>
+      </a>
+      <a href="customers.html" class="nav-item" data-href="customers">
+        <span class="nav-icon">👥</span>
+        العملاء
+      </a>
+
+      <div class="nav-section">الإعدادات</div>
+      <a href="store-builder.html" class="nav-item" data-href="store-builder">
+        <span class="nav-icon">🏪</span>
+        إعدادات المتجر
+      </a>
+      <a href="landing-builder.html" class="nav-item" data-href="landing-builder">
+        <span class="nav-icon">📄</span>
+        صفحات الهبوط
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" data-user-avatar>م</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-user-name>المستخدم</div>
+          <div class="sidebar-user-email" data-user-email>email@example.com</div>
+        </div>
+      </div>
+      <button class="nav-item w-full" data-action="logout" style="border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-align:right;font-family:inherit;font-size:14px;font-weight:500;margin-top:4px;">
+        <span class="nav-icon">🚪</span>
+        تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="breadcrumb">
+          <span class="breadcrumb-item">الرئيسية</span>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-item active">لوحة التحكم</span>
+        </div>
+      </div>
+      <div class="topbar-left">
+        <div style="font-size:13px;color:var(--gray);font-weight:500;" id="todayDate"></div>
+        <button class="topbar-btn" title="الإشعارات">
+          🔔
+          <span class="badge-dot" id="notifDot" style="display:none"></span>
+        </button>
+        <a href="store-builder.html" class="btn btn-primary btn-sm">
+          🏪 متجري
+        </a>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-content">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">لوحة التحكم 📊</h1>
+          <p class="page-subtitle">مرحباً <strong data-user-name>بك</strong>! إليك ملخص نشاط متجرك</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <select id="periodFilter" class="form-control" style="width:140px;">
+            <option value="7">آخر 7 أيام</option>
+            <option value="30" selected>آخر 30 يوم</option>
+            <option value="90">آخر 90 يوم</option>
+          </select>
+          <a href="orders.html" class="btn btn-outline">
+            🛒 الطلبات الجديدة
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid" id="statsGrid">
+        <!-- Cards injected by JS -->
+        <div class="stat-card primary">
+          <div class="stat-icon primary skeleton" style="height:52px;width:52px;"></div>
+          <div class="stat-info">
+            <div class="skeleton" style="height:32px;width:80px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:16px;width:120px;"></div>
+          </div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-icon success skeleton" style="height:52px;width:52px;"></div>
+          <div class="stat-info">
+            <div class="skeleton" style="height:32px;width:80px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:16px;width:120px;"></div>
+          </div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-icon warning skeleton" style="height:52px;width:52px;"></div>
+          <div class="stat-info">
+            <div class="skeleton" style="height:32px;width:80px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:16px;width:120px;"></div>
+          </div>
+        </div>
+        <div class="stat-card danger">
+          <div class="stat-icon danger skeleton" style="height:52px;width:52px;"></div>
+          <div class="stat-info">
+            <div class="skeleton" style="height:32px;width:80px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:16px;width:120px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-grid">
+        <!-- Line Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">📈 الطلبات والأرباح</div>
+            <div style="display:flex;gap:8px;">
+              <span class="badge badge-primary">الطلبات</span>
+              <span class="badge badge-success">الأرباح</span>
+            </div>
+          </div>
+          <div class="chart-body" style="height:280px;">
+            <canvas id="ordersChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">🥧 حالة الطلبات</div>
+          </div>
+          <div class="chart-body" style="height:280px;display:flex;align-items:center;justify-content:center;">
+            <canvas id="statusChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Second Row: Wilayas + Top Products -->
+      <div class="charts-grid" style="grid-template-columns:1fr 1fr;">
+        <!-- Top Wilayas -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">🗺️ أفضل الولايات</div>
+          </div>
+          <div class="chart-body" style="height:260px;">
+            <canvas id="wilayaChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Top Products -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <div class="chart-title">🏆 أفضل المنتجات</div>
+            <a href="products.html" class="btn btn-ghost btn-sm">كل المنتجات</a>
+          </div>
+          <div class="chart-body">
+            <div id="topProductsList">
+              <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px;"></div>
+              <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px;"></div>
+              <div class="skeleton" style="height:48px;border-radius:8px;margin-bottom:8px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Orders Table -->
+      <div class="orders-table-card" style="margin-top:20px;">
+        <div class="orders-table-header">
+          <div class="chart-title">🛒 آخر الطلبات</div>
+          <a href="orders.html" class="btn btn-ghost btn-sm">عرض الكل →</a>
+        </div>
+        <div class="table-wrapper">
+          <table id="recentOrdersTable">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>العميل</th>
+                <th>الولاية</th>
+                <th>المنتج</th>
+                <th>المبلغ</th>
+                <th>الحالة</th>
+                <th>التاريخ</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="recentOrdersBody">
+              <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray);">
+                <div class="spinner"></div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  // Init dashboard
+  if (!initDashboard()) { /* redirected */ }
+
+  // Today's date
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('ar-DZ', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  });
+
+  let ordersChart, statusChart, wilayaChart;
+  let analyticsData = null;
+
+  // Load analytics data
+  async function loadDashboard() {
+    const period = document.getElementById('periodFilter').value;
+    
+    try {
+      const result = await api.getAnalytics({ period });
+      analyticsData = result.data;
+      renderStats(analyticsData.summary);
+      renderCharts(analyticsData);
+      renderTopProducts(analyticsData.topProducts);
+    } catch (err) {
+      console.error('Analytics error:', err);
+      if (err.status === 401) {
+        Auth.logout();
+        return;
+      }
+    }
+
+    try {
+      const ordersResult = await api.getOrders({ limit: 10, sort: 'createdAt' });
+      renderRecentOrders(ordersResult.data);
+      
+      const pending = ordersResult.statusCounts?.pending || 0;
+      if (pending > 0) {
+        const badge = document.getElementById('pendingBadge');
+        badge.textContent = pending;
+        badge.style.display = 'inline-flex';
+        document.getElementById('notifDot').style.display = 'block';
+      }
+    } catch (err) {
+      console.error('Orders error:', err);
+    }
+  }
+
+  function renderStats(summary) {
+    if (!summary) return;
+    
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-card primary animate-fade">
+        <div class="stat-icon primary">🛒</div>
+        <div class="stat-info">
+          <div class="stat-value">${summary.totalOrders || 0}</div>
+          <div class="stat-label">إجمالي الطلبات</div>
+          <div class="stat-change up">📈 اليوم: ${summary.today?.orders || 0}</div>
+        </div>
+      </div>
+      <div class="stat-card success animate-fade">
+        <div class="stat-icon success">💰</div>
+        <div class="stat-info">
+          <div class="stat-value">${formatCurrency(summary.totalRevenue || 0)}</div>
+          <div class="stat-label">الأرباح المتوقعة</div>
+          <div class="stat-change up">📈 الأسبوع: ${formatCurrency(summary.week?.revenue || 0)}</div>
+        </div>
+      </div>
+      <div class="stat-card warning animate-fade">
+        <div class="stat-icon warning">📊</div>
+        <div class="stat-info">
+          <div class="stat-value">${summary.conversionRate || 0}%</div>
+          <div class="stat-label">نسبة التحويل</div>
+          <div class="stat-change ${summary.conversionRate > 50 ? 'up' : 'down'}">
+            ${summary.conversionRate > 50 ? '✅ ممتاز' : '⚠️ يحتاج تحسين'}
+          </div>
+        </div>
+      </div>
+      <div class="stat-card danger animate-fade">
+        <div class="stat-icon danger">⏳</div>
+        <div class="stat-info">
+          <div class="stat-value">${summary.pendingOrders || 0}</div>
+          <div class="stat-label">طلبات معلقة</div>
+          <div class="stat-change ${summary.pendingOrders > 0 ? 'down' : 'up'}">
+            ${summary.pendingOrders > 0 ? '⚠️ تحتاج مراجعة' : '✅ لا طلبات معلقة'}
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderCharts(data) {
+    // Orders line chart
+    const ctx1 = document.getElementById('ordersChart').getContext('2d');
+    if (ordersChart) ordersChart.destroy();
+    
+    const dailyData = data.dailyData || [];
+    ordersChart = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: dailyData.map(d => d.label),
+        datasets: [
+          {
+            label: 'الطلبات',
+            data: dailyData.map(d => d.orders),
+            borderColor: '#6C5CE7',
+            backgroundColor: 'rgba(108,92,231,0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#6C5CE7'
+          },
+          {
+            label: 'الأرباح (دج)',
+            data: dailyData.map(d => d.revenue),
+            borderColor: '#00B894',
+            backgroundColor: 'rgba(0,184,148,0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 4,
+            pointBackgroundColor: '#00B894',
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { position: 'top', rtl: true, labels: { font: { family: 'Cairo' } } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'Cairo', size: 11 } } },
+          y: { 
+            position: 'right',
+            ticks: { font: { family: 'Cairo' }, stepSize: 1 }
+          },
+          y1: {
+            position: 'left',
+            ticks: { font: { family: 'Cairo' } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    // Status pie chart
+    const ctx2 = document.getElementById('statusChart').getContext('2d');
+    if (statusChart) statusChart.destroy();
+    
+    const statusData = data.statusCounts || {};
+    const statusLabels = { pending: 'معلق', confirmed: 'مؤكد', shipped: 'مشحون', delivered: 'موصّل', cancelled: 'ملغي' };
+    const statusColors = ['#FDCB6E', '#6C5CE7', '#00CEC9', '#00B894', '#E17055'];
+    
+    const labels = Object.keys(statusLabels).filter(k => statusData[k] > 0);
+    const values = labels.map(k => statusData[k] || 0);
+
+    statusChart = new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: labels.map(k => statusLabels[k]),
+        datasets: [{
+          data: values,
+          backgroundColor: statusColors.slice(0, labels.length),
+          borderWidth: 0,
+          hoverOffset: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', rtl: true, labels: { font: { family: 'Cairo', size: 12 }, padding: 12 } }
+        },
+        cutout: '65%'
+      }
+    });
+
+    // Wilayas bar chart
+    const ctx3 = document.getElementById('wilayaChart').getContext('2d');
+    if (wilayaChart) wilayaChart.destroy();
+    
+    const wilayas = (data.topWilayas || []).slice(0, 8);
+    wilayaChart = new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: wilayas.map(w => w.wilaya),
+        datasets: [{
+          label: 'عدد الطلبات',
+          data: wilayas.map(w => w.count),
+          backgroundColor: 'rgba(108,92,231,0.8)',
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'Cairo', size: 11 } } },
+          y: { 
+            position: 'right',
+            ticks: { font: { family: 'Cairo' }, stepSize: 1 }
+          }
+        }
+      }
+    });
+  }
+
+  function renderTopProducts(products) {
+    const container = document.getElementById('topProductsList');
+    if (!products || products.length === 0) {
+      container.innerHTML = '<p style="text-align:center;color:var(--gray);padding:20px;">لا توجد منتجات بعد</p>';
+      return;
+    }
+
+    container.innerHTML = products.map((p, i) => `
+      <div style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:var(--light);margin-bottom:8px;">
+        <div style="width:32px;height:32px;border-radius:8px;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;">${i+1}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(p.name || 'منتج')}</div>
+          <div style="font-size:12px;color:var(--gray);">${p.count} طلب</div>
+        </div>
+        <div style="font-size:14px;font-weight:700;color:var(--success);">${formatCurrency(p.revenue)}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderRecentOrders(orders) {
+    const tbody = document.getElementById('recentOrdersBody');
+    
+    if (!orders || orders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--gray);">
+        <div style="font-size:48px;margin-bottom:12px;">📭</div>
+        <div style="font-weight:600;">لا توجد طلبات بعد</div>
+        <div style="font-size:13px;margin-top:4px;">شارك رابط متجرك للحصول على أول طلب!</div>
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = orders.map(order => `
+      <tr>
+        <td><span style="font-size:12px;color:var(--primary);font-weight:700;">${escapeHtml(order.orderNumber || order._id?.slice(-6) || '-')}</span></td>
+        <td>
+          <div style="font-weight:600;">${escapeHtml(order.customer?.name || '-')}</div>
+          <div style="font-size:12px;color:var(--gray);">${escapeHtml(order.customer?.phone || '')}</div>
+        </td>
+        <td>${escapeHtml(order.customer?.wilaya || '-')}</td>
+        <td style="max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(order.product?.name || '-')}</td>
+        <td style="font-weight:700;color:var(--success);">${formatCurrency(order.totalAmount || 0)}</td>
+        <td><span class="badge ${getStatusClass(order.status)}">${getStatusLabel(order.status)}</span></td>
+        <td style="font-size:12px;color:var(--gray);">${formatDateShort(order.createdAt)}</td>
+        <td>
+          <a href="orders.html?id=${order._id}" class="btn btn-ghost btn-sm">عرض</a>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  // Period filter change
+  document.getElementById('periodFilter').addEventListener('change', loadDashboard);
+
+  // Initial load
+  loadDashboard();
+</script>
+</body>
+</html>

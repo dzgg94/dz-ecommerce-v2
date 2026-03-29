@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الطلبات - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛍️</div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">DZ Store</div>
+        <div class="sidebar-logo-plan" data-user-plan>أساسي</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">الرئيسية</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>لوحة التحكم</a>
+      <div class="nav-section">المتجر</div>
+      <a href="products.html" class="nav-item"><span class="nav-icon">📦</span>المنتجات</a>
+      <a href="orders.html" class="nav-item active"><span class="nav-icon">🛒</span>الطلبات</a>
+      <a href="customers.html" class="nav-item"><span class="nav-icon">👥</span>العملاء</a>
+      <div class="nav-section">الإعدادات</div>
+      <a href="store-builder.html" class="nav-item"><span class="nav-icon">🏪</span>إعدادات المتجر</a>
+      <a href="landing-builder.html" class="nav-item"><span class="nav-icon">📄</span>صفحات الهبوط</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" data-user-avatar>م</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-user-name>المستخدم</div>
+          <div class="sidebar-user-email" data-user-email>email</div>
+        </div>
+      </div>
+      <button class="nav-item w-full" data-action="logout" style="border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-align:right;font-family:inherit;font-size:14px;font-weight:500;margin-top:4px;">
+        <span class="nav-icon">🚪</span>تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="breadcrumb">
+          <a href="dashboard.html" class="breadcrumb-item">الرئيسية</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-item active">الطلبات</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">الطلبات 🛒</h1>
+          <p class="page-subtitle" id="ordersCount">جاري التحميل...</p>
+        </div>
+      </div>
+
+      <!-- Status Filter Tabs -->
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;" id="statusTabs">
+        <button class="btn btn-primary btn-sm active-tab" data-status="" onclick="filterByStatus(this, '')">الكل</button>
+        <button class="btn btn-ghost btn-sm" data-status="pending" onclick="filterByStatus(this, 'pending')">⏳ معلق (<span class="count-pending">0</span>)</button>
+        <button class="btn btn-ghost btn-sm" data-status="confirmed" onclick="filterByStatus(this, 'confirmed')">✅ مؤكد (<span class="count-confirmed">0</span>)</button>
+        <button class="btn btn-ghost btn-sm" data-status="shipped" onclick="filterByStatus(this, 'shipped')">🚚 مشحون (<span class="count-shipped">0</span>)</button>
+        <button class="btn btn-ghost btn-sm" data-status="delivered" onclick="filterByStatus(this, 'delivered')">🎉 موصّل (<span class="count-delivered">0</span>)</button>
+        <button class="btn btn-ghost btn-sm" data-status="cancelled" onclick="filterByStatus(this, 'cancelled')">❌ ملغي (<span class="count-cancelled">0</span>)</button>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchInput" placeholder="ابحث برقم الطلب أو الاسم أو الهاتف...">
+        </div>
+        <select class="form-control" id="wilayaFilter">
+          <option value="">كل الولايات</option>
+        </select>
+        <input type="date" class="form-control" id="dateFromFilter" style="max-width:150px;" title="من تاريخ">
+        <input type="date" class="form-control" id="dateToFilter" style="max-width:150px;" title="إلى تاريخ">
+        <button class="btn btn-ghost btn-sm" onclick="clearFilters()">↺ مسح</button>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="orders-table-card">
+        <div class="table-wrapper">
+          <table id="ordersTable">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>العميل</th>
+                <th>الولاية</th>
+                <th>المنتج</th>
+                <th>المبلغ</th>
+                <th>الحالة</th>
+                <th>المخاطر</th>
+                <th>التاريخ</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="ordersBody">
+              <tr><td colspan="9" style="text-align:center;padding:60px;">
+                <div class="spinner"></div>
+              </td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Order Details Sidebar -->
+<div id="orderSidebar" style="position:fixed;top:0;left:0;width:420px;height:100vh;background:white;box-shadow:-8px 0 40px rgba(0,0,0,0.15);z-index:300;display:flex;flex-direction:column;transform:translateX(-100%);transition:transform 0.3s ease;overflow:hidden;">
+  <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--dark);color:white;">
+    <h3 style="font-size:16px;font-weight:700;color:white;">تفاصيل الطلب</h3>
+    <button onclick="closeSidebar()" style="border:none;background:rgba(255,255,255,0.1);color:white;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:18px;">×</button>
+  </div>
+  <div style="flex:1;overflow-y:auto;padding:24px;" id="orderDetails">
+    <div class="spinner"></div>
+  </div>
+</div>
+<div id="sidebarBg" onclick="closeSidebar()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:299;"></div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  if (!initDashboard()) {}
+
+  let currentPage = 1;
+  let currentStatus = '';
+  let currentOrderId = null;
+
+  // Populate wilaya filter
+  const wilayaFilter = document.getElementById('wilayaFilter');
+  ALGERIA_WILAYAS.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w;
+    opt.textContent = w;
+    wilayaFilter.appendChild(opt);
+  });
+
+  async function loadOrders(page = 1) {
+    currentPage = page;
+    const search = document.getElementById('searchInput').value;
+    const wilaya = document.getElementById('wilayaFilter').value;
+    const dateFrom = document.getElementById('dateFromFilter').value;
+    const dateTo = document.getElementById('dateToFilter').value;
+
+    const tbody = document.getElementById('ordersBody');
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;"><div class="spinner"></div></td></tr>';
+
+    try {
+      const result = await api.getOrders({ 
+        page, limit: 15, status: currentStatus, 
+        search, wilaya, dateFrom, dateTo 
+      });
+
+      document.getElementById('ordersCount').textContent = `${result.total || 0} طلب`;
+      
+      // Update status counts
+      const counts = result.statusCounts || {};
+      ['pending','confirmed','shipped','delivered','cancelled'].forEach(s => {
+        document.querySelectorAll(`.count-${s}`).forEach(el => el.textContent = counts[s] || 0);
+      });
+
+      renderOrders(result.data || []);
+      renderPagination(result.pages || 1, result.page || 1);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  function renderOrders(orders) {
+    const tbody = document.getElementById('ordersBody');
+    
+    if (orders.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:60px;color:var(--gray);">
+        <div style="font-size:48px;margin-bottom:12px;">📭</div>
+        <div style="font-weight:600;">لا توجد طلبات</div>
+      </td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = orders.map(order => {
+      const riskBadge = order.fraudScore >= 70 
+        ? '<span class="badge badge-danger">🚨 خطر</span>'
+        : order.fraudScore >= 40 
+          ? '<span class="badge badge-warning">⚠️ مشبوه</span>'
+          : '<span class="badge badge-success">✅ آمن</span>';
+
+      return `
+      <tr style="cursor:pointer;" onclick="viewOrder('${order._id}')">
+        <td><span style="font-size:12px;color:var(--primary);font-weight:700;">${escapeHtml(order.orderNumber || '#' + (order._id?.slice(-6)))}</span></td>
+        <td>
+          <div style="font-weight:600;">${escapeHtml(order.customer?.name || '-')}</div>
+          <div style="font-size:12px;color:var(--gray);" dir="ltr">${escapeHtml(order.customer?.phone || '')}</div>
+        </td>
+        <td>${escapeHtml(order.customer?.wilaya || '-')}</td>
+        <td style="max-width:150px;">
+          <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(order.product?.name || '-')}</div>
+          ${order.product?.variant ? `<div style="font-size:11px;color:var(--gray);">${escapeHtml(JSON.stringify(order.product.variant))}</div>` : ''}
+        </td>
+        <td style="font-weight:700;color:var(--success);">${formatCurrency(order.totalAmount || 0)}</td>
+        <td><span class="badge ${getStatusClass(order.status)}">${getStatusLabel(order.status)}</span></td>
+        <td>${riskBadge}</td>
+        <td style="font-size:12px;color:var(--gray);">${formatDateShort(order.createdAt)}</td>
+        <td onclick="event.stopPropagation()">
+          <div style="display:flex;gap:6px;">
+            <select class="form-control" style="padding:6px 10px;font-size:12px;height:auto;" onchange="updateStatus('${order._id}', this.value)">
+              <option value="pending" ${order.status==='pending'?'selected':''}>معلق</option>
+              <option value="confirmed" ${order.status==='confirmed'?'selected':''}>مؤكد</option>
+              <option value="shipped" ${order.status==='shipped'?'selected':''}>مشحون</option>
+              <option value="delivered" ${order.status==='delivered'?'selected':''}>موصّل</option>
+              <option value="cancelled" ${order.status==='cancelled'?'selected':''}>ملغي</option>
+            </select>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function renderPagination(totalPages, currentP) {
+    const pag = document.getElementById('pagination');
+    if (totalPages <= 1) { pag.style.display = 'none'; return; }
+    
+    pag.style.display = 'flex';
+    let html = `<button class="page-btn" onclick="loadOrders(${currentP-1})" ${currentP===1?'disabled':''}>‹</button>`;
+    for (let i = 1; i <= Math.min(totalPages, 10); i++) {
+      html += `<button class="page-btn ${i===currentP?'active':''}" onclick="loadOrders(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" onclick="loadOrders(${currentP+1})" ${currentP===totalPages?'disabled':''}>›</button>`;
+    pag.innerHTML = html;
+  }
+
+  // Filter by status
+  function filterByStatus(btn, status) {
+    document.querySelectorAll('#statusTabs button').forEach(b => {
+      b.classList.remove('active-tab', 'btn-primary');
+      b.classList.add('btn-ghost');
+    });
+    btn.classList.add('active-tab', 'btn-primary');
+    btn.classList.remove('btn-ghost');
+    currentStatus = status;
+    loadOrders(1);
+  }
+
+  // Update status
+  async function updateStatus(orderId, newStatus) {
+    try {
+      await api.updateOrder(orderId, { status: newStatus });
+      Toast.success('تم التحديث', `تم تغيير الحالة إلى: ${getStatusLabel(newStatus)}`);
+      loadOrders(currentPage);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  // View order details in sidebar
+  async function viewOrder(orderId) {
+    currentOrderId = orderId;
+    document.getElementById('orderSidebar').style.transform = 'translateX(0)';
+    document.getElementById('sidebarBg').style.display = 'block';
+    document.getElementById('orderDetails').innerHTML = '<div class="spinner" style="margin:40px auto;"></div>';
+
+    try {
+      const result = await api.getOrder(orderId);
+      const order = result.data;
+      renderOrderDetails(order);
+    } catch (err) {
+      document.getElementById('orderDetails').innerHTML = `<div class="alert alert-danger">${err.message}</div>`;
+    }
+  }
+
+  function renderOrderDetails(order) {
+    const riskColor = order.fraudScore >= 70 ? 'var(--danger)' : order.fraudScore >= 40 ? 'var(--warning)' : 'var(--success)';
+    
+    document.getElementById('orderDetails').innerHTML = `
+      <div style="margin-bottom:20px;">
+        <div style="font-size:12px;color:var(--gray);margin-bottom:4px;">رقم الطلب</div>
+        <div style="font-size:18px;font-weight:800;color:var(--primary);">${escapeHtml(order.orderNumber || '#' + order._id?.slice(-6))}</div>
+        <div style="font-size:12px;color:var(--gray);margin-top:4px;">${formatDate(order.createdAt, true)}</div>
+      </div>
+
+      <div style="background:var(--light);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;margin-bottom:12px;">👤 بيانات العميل</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px;">${escapeHtml(order.customer?.name || '-')}</div>
+        <div style="font-size:14px;color:var(--gray);margin-bottom:4px;" dir="ltr">📱 ${escapeHtml(order.customer?.phone || '-')}</div>
+        <div style="font-size:14px;color:var(--gray);margin-bottom:4px;">📍 ${escapeHtml(order.customer?.wilaya || '')}، ${escapeHtml(order.customer?.commune || '')}</div>
+        ${order.customer?.address ? `<div style="font-size:13px;color:var(--gray);">🏠 ${escapeHtml(order.customer.address)}</div>` : ''}
+      </div>
+
+      <div style="background:var(--light);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;margin-bottom:12px;">📦 المنتج</div>
+        <div style="font-size:15px;font-weight:700;margin-bottom:4px;">${escapeHtml(order.product?.name || '-')}</div>
+        ${order.product?.variant ? `<div style="font-size:13px;color:var(--gray);margin-bottom:4px;">المتغير: ${escapeHtml(JSON.stringify(order.product.variant))}</div>` : ''}
+        <div style="font-size:13px;color:var(--gray);">الكمية: ${order.product?.quantity || 1}</div>
+        <div style="font-size:20px;font-weight:800;color:var(--success);margin-top:8px;">${formatCurrency(order.totalAmount || 0)}</div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label class="form-label">حالة الطلب</label>
+        <select class="form-control" id="orderStatusSelect">
+          <option value="pending" ${order.status==='pending'?'selected':''}>⏳ معلق</option>
+          <option value="confirmed" ${order.status==='confirmed'?'selected':''}>✅ مؤكد</option>
+          <option value="shipped" ${order.status==='shipped'?'selected':''}>🚚 مشحون</option>
+          <option value="delivered" ${order.status==='delivered'?'selected':''}>🎉 موصّل</option>
+          <option value="cancelled" ${order.status==='cancelled'?'selected':''}>❌ ملغي</option>
+        </select>
+      </div>
+
+      ${order.trackingNumber ? `
+        <div style="background:rgba(0,184,148,0.1);border-radius:12px;padding:14px;margin-bottom:16px;">
+          <div style="font-size:12px;font-weight:700;color:var(--success);margin-bottom:4px;">🚚 رقم التتبع (${order.shippingProvider || ''})</div>
+          <div style="font-size:15px;font-weight:700;" dir="ltr">${escapeHtml(order.trackingNumber)}</div>
+        </div>
+      ` : `
+        <div style="margin-bottom:16px;">
+          <label class="form-label">إرسال الشحنة</label>
+          <div style="display:flex;gap:8px;">
+            <select class="form-control" id="shippingProvider" style="flex:1;">
+              <option value="yalidine">Yalidine</option>
+              <option value="ecotrack">EcoTrack</option>
+            </select>
+            <button class="btn btn-secondary btn-sm" onclick="createShipment()">🚚 شحن</button>
+          </div>
+        </div>
+      `}
+
+      <div style="margin-bottom:16px;">
+        <label class="form-label">ملاحظات</label>
+        <textarea class="form-control" id="orderNotes" rows="3" placeholder="أضف ملاحظة...">${escapeHtml(order.notes || '')}</textarea>
+      </div>
+
+      <div style="background:${order.fraudScore >= 70 ? 'rgba(225,112,85,0.1)' : order.fraudScore >= 40 ? 'rgba(253,203,110,0.15)' : 'rgba(0,184,148,0.1)'};border-radius:12px;padding:14px;margin-bottom:20px;">
+        <div style="font-size:12px;font-weight:700;color:${riskColor};margin-bottom:8px;">🛡️ تحليل المخاطر - نقاط: ${order.fraudScore || 0}/100</div>
+        ${order.fraudReasons?.length 
+          ? `<ul style="margin:0;padding-right:16px;font-size:13px;color:var(--gray);">${order.fraudReasons.map(r => `<li>${escapeHtml(r)}</li>`).join('')}</ul>`
+          : '<div style="font-size:13px;color:var(--success);">✅ لم يتم اكتشاف مخاطر</div>'
+        }
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <button class="btn btn-primary" onclick="saveOrderDetails()">💾 حفظ التغييرات</button>
+        <button class="btn btn-danger" onclick="cancelOrder()">❌ إلغاء الطلب</button>
+      </div>
+    `;
+  }
+
+  function closeSidebar() {
+    document.getElementById('orderSidebar').style.transform = 'translateX(-100%)';
+    document.getElementById('sidebarBg').style.display = 'none';
+    currentOrderId = null;
+  }
+
+  async function saveOrderDetails() {
+    if (!currentOrderId) return;
+    const status = document.getElementById('orderStatusSelect').value;
+    const notes = document.getElementById('orderNotes').value;
+    
+    try {
+      await api.updateOrder(currentOrderId, { status, notes });
+      Toast.success('تم الحفظ', 'تم تحديث الطلب بنجاح');
+      loadOrders(currentPage);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  async function createShipment() {
+    if (!currentOrderId) return;
+    const provider = document.getElementById('shippingProvider').value;
+    
+    try {
+      const result = await api.createShipment({ orderId: currentOrderId, provider });
+      Toast.success('تم الشحن', `رقم التتبع: ${result.trackingNumber}`);
+      viewOrder(currentOrderId);
+      loadOrders(currentPage);
+    } catch (err) {
+      Toast.error('خطأ في الشحن', err.message);
+    }
+  }
+
+  async function cancelOrder() {
+    if (!currentOrderId) return;
+    if (!confirm('هل تريد إلغاء هذا الطلب؟')) return;
+    
+    try {
+      await api.cancelOrder(currentOrderId);
+      Toast.warning('تم الإلغاء', 'تم إلغاء الطلب');
+      closeSidebar();
+      loadOrders(currentPage);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  function clearFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('wilayaFilter').value = '';
+    document.getElementById('dateFromFilter').value = '';
+    document.getElementById('dateToFilter').value = '';
+    loadOrders(1);
+  }
+
+  // Search debounce
+  const debouncedSearch = debounce(() => loadOrders(1), 400);
+  document.getElementById('searchInput').addEventListener('input', debouncedSearch);
+  document.getElementById('wilayaFilter').addEventListener('change', () => loadOrders(1));
+  document.getElementById('dateFromFilter').addEventListener('change', () => loadOrders(1));
+  document.getElementById('dateToFilter').addEventListener('change', () => loadOrders(1));
+
+  // Check URL for specific order
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderId = urlParams.get('id');
+
+  loadOrders(1).then(() => {
+    if (orderId) viewOrder(orderId);
+  });
+</script>
+</body>
+</html>

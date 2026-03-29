@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DZ Store - منصة التجارة الإلكترونية الجزائرية</title>
+  <meta name="description" content="أنشئ متجرك الإلكتروني في دقائق. بيع منتجاتك عبر الإنترنت بسهولة مع نظام الدفع عند الاستلام وتكامل شركات التوصيل الجزائرية.">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* ===== Landing Page Specific ===== */
+    body { background: #fff; }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(108,92,231,0.1);
+      padding: 0 24px;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 38px;
+      height: 38px;
+      background: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .nav-btn {
+      background: var(--primary);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .nav-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 160px 24px 80px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6C5CE7 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 50%;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      background: #55efc4;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .highlight {
+      color: #ffd32a;
+      position: relative;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 32px;
+      background: white;
+      color: var(--primary);
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+
+    .hero-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+      color: var(--primary);
+    }
+
+    .hero-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 28px;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-btn-outline:hover {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+
+    /* Hero Visual / Dashboard Preview */
+    .hero-visual {
+      position: relative;
+    }
+
+    .dashboard-preview {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+      overflow: hidden;
+      transform: perspective(1000px) rotateY(-5deg) rotateX(3deg);
+      transition: transform 0.5s ease;
+    }
+
+    .dashboard-preview:hover {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+    }
+
+    .dash-nav {
+      background: #2D3436;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 8px;
+    }
+
+    .dash-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .dash-content {
+      padding: 16px;
+    }
+
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .dash-stat {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .dash-stat-num { font-size: 20px; font-weight: 800; color: #6C5CE7; }
+    .dash-stat-label { font-size: 10px; color: #636e72; }
+
+    .dash-chart {
+      background: #f8f9fa;
+      border-radius: 10px;
+      height: 100px;
+      display: flex;
+      align-items: flex-end;
+      padding: 8px;
+      gap: 4px;
+    }
+
+    .dash-bar {
+      flex: 1;
+      background: linear-gradient(to top, #6C5CE7, #a29bfe);
+      border-radius: 4px 4px 0 0;
+      min-height: 20px;
+    }
+
+    /* Stats Section */
+    .stats-section {
+      padding: 60px 24px;
+      background: white;
+    }
+
+    .stats-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+
+    .stat-item {}
+    .stat-item-num {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--primary);
+      display: block;
+    }
+    .stat-item-label {
+      font-size: 16px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 24px;
+      background: var(--bg);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-badge {
+      display: inline-block;
+      background: rgba(108,92,231,0.1);
+      color: var(--primary);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--gray);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 50px rgba(108,92,231,0.15);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Shipping section */
+    .shipping-section {
+      padding: 80px 24px;
+      background: white;
+    }
+
+    .shipping-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .shipping-companies {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .shipping-company {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 2px solid transparent;
+      transition: all 0.3s;
+    }
+
+    .shipping-company:hover {
+      border-color: var(--primary);
+      background: rgba(108,92,231,0.05);
+    }
+
+    .shipping-co-icon {
+      font-size: 32px;
+    }
+
+    .shipping-co-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .shipping-co-desc {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    .shipping-features {
+      margin-top: 24px;
+    }
+
+    .shipping-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--dark);
+    }
+
+    .shipping-feature:last-child { border-bottom: none; }
+    .shipping-feature span:first-child { font-size: 20px; }
+
+    /* Pricing */
+    .pricing {
+      padding: 80px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .pricing .section-title { color: white; }
+    .pricing .section-subtitle { color: rgba(255,255,255,0.8); }
+    .pricing .section-badge { background: rgba(255,255,255,0.2); color: white; }
+
+    .pricing-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .pricing-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 24px;
+      padding: 36px 32px;
+      color: white;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .pricing-card.popular {
+      background: white;
+      color: var(--dark);
+      transform: scale(1.05);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--warning);
+      color: var(--dark);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .plan-name {
+      font-size: 14px;
+      font-weight: 700;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .pricing-card.popular .plan-name { color: var(--gray); }
+
+    .plan-price {
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .plan-price-label {
+      font-size: 14px;
+      opacity: 0.7;
+      margin-bottom: 28px;
+    }
+
+    .plan-features {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .plan-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+
+    .plan-feature-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .plan-btn {
+      display: block;
+      text-align: center;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .pricing-card:not(.popular) .plan-btn {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .pricing-card:not(.popular) .plan-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .pricing-card.popular .plan-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 8px 25px rgba(108,92,231,0.35);
+    }
+
+    .pricing-card.popular .plan-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 80px 24px;
+      background: var(--bg);
+    }
+
+    .testimonials-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .testimonial-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .testimonial-stars {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-text {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .testimonial-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .testimonial-store {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 80px 24px;
+      background: var(--dark);
+      text-align: center;
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .cta-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 40px;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1a1f2e;
+      color: rgba(255,255,255,0.6);
+      padding: 60px 24px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand { }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 900;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .footer-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer-social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .footer-social-btn:hover { background: var(--primary); color: white; }
+
+    .footer-col-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .footer-link {
+      display: block;
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+    }
+
+    .footer-link:hover { color: white; }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    /* Scroll animation */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 992px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-visual { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .shipping-inner { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pricing-card.popular { transform: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 576px) {
+      .hero h1 { font-size: 2rem; }
+      .hero { padding: 120px 20px 60px; }
+      .features-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">🛍️</div>
+        DZ Store
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">المميزات</a>
+        <a href="#pricing" class="nav-link">الأسعار</a>
+        <a href="#testimonials" class="nav-link">آراء العملاء</a>
+        <a href="login.html" class="nav-link">تسجيل الدخول</a>
+        <a href="register.html" class="nav-btn">ابدأ مجاناً ←</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          منصة التجارة الإلكترونية رقم 1 في الجزائر
+        </div>
+        <h1>
+          أنشئ متجرك
+          <br>
+          <span class="highlight">وبيع أكثر</span> 🚀
+        </h1>
+        <p>
+          منصة متكاملة لإنشاء متجرك الإلكتروني وإدارة منتجاتك وطلباتك، مع تكامل مباشر مع 
+          <strong>Yalidine وEcoTrack</strong> ونظام ذكي لمكافحة الطلبات الوهمية.
+        </p>
+        <div class="hero-btns">
+          <a href="register.html" class="hero-btn-primary">
+            🎁 ابدأ مجاناً الآن
+          </a>
+          <a href="#features" class="hero-btn-outline">
+            اكتشف المميزات ↓
+          </a>
+        </div>
+        <div style="margin-top:32px; display:flex; gap:24px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.8); font-size:13px;">
+            ✅ لا يلزم بطاقة بنكية
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.8); font-size:13px;">
+            ✅ 30 يوم تجريبي مجاني
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.8); font-size:13px;">
+            ✅ إعداد في 5 دقائق
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Preview -->
+      <div class="hero-visual">
+        <div class="dashboard-preview">
+          <div class="dash-nav">
+            <div class="dash-dot" style="background:#ff5f57"></div>
+            <div class="dash-dot" style="background:#febc2e"></div>
+            <div class="dash-dot" style="background:#28c840"></div>
+          </div>
+          <div class="dash-content">
+            <div style="font-size:12px;font-weight:700;color:#636e72;margin-bottom:10px;">📊 لوحة التحكم</div>
+            <div class="dash-stats">
+              <div class="dash-stat">
+                <div class="dash-stat-num">١٢٣</div>
+                <div class="dash-stat-label">طلب هذا الشهر</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-num">٨٩٪</div>
+                <div class="dash-stat-label">نسبة التوصيل</div>
+              </div>
+              <div class="dash-stat">
+                <div class="dash-stat-num">٤٥</div>
+                <div class="dash-stat-label">منتج نشط</div>
+              </div>
+            </div>
+            <div style="font-size:11px;color:#636e72;margin-bottom:8px;">📈 الطلبات (آخر 30 يوم)</div>
+            <div class="dash-chart">
+              <div class="dash-bar" style="height:40%"></div>
+              <div class="dash-bar" style="height:60%"></div>
+              <div class="dash-bar" style="height:45%"></div>
+              <div class="dash-bar" style="height:80%"></div>
+              <div class="dash-bar" style="height:65%"></div>
+              <div class="dash-bar" style="height:90%"></div>
+              <div class="dash-bar" style="height:70%"></div>
+              <div class="dash-bar" style="height:55%"></div>
+              <div class="dash-bar" style="height:85%"></div>
+              <div class="dash-bar" style="height:95%"></div>
+            </div>
+            <div style="margin-top:12px; display:flex; flex-direction:column; gap:6px;">
+              <div style="background:#f8f9fa;border-radius:6px;padding:8px;display:flex;justify-content:space-between;font-size:11px;">
+                <span>🟡 طلب #1234 - محمد - وهران</span>
+                <span style="color:#6C5CE7;font-weight:700;">معلق</span>
+              </div>
+              <div style="background:#f8f9fa;border-radius:6px;padding:8px;display:flex;justify-content:space-between;font-size:11px;">
+                <span>🟢 طلب #1233 - أمينة - الجزائر</span>
+                <span style="color:#00B894;font-weight:700;">مؤكد</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item animate-on-scroll">
+        <span class="stat-item-num" data-count="500">0</span>
+        <span class="stat-item-label">+ متجر نشط</span>
+      </div>
+      <div class="stat-item animate-on-scroll">
+        <span class="stat-item-num" data-count="50000">0</span>
+        <span class="stat-item-label">+ طلب معالج</span>
+      </div>
+      <div class="stat-item animate-on-scroll">
+        <span class="stat-item-num" data-count="58">0</span>
+        <span class="stat-item-label">ولاية مغطاة</span>
+      </div>
+      <div class="stat-item animate-on-scroll">
+        <span class="stat-item-num" data-count="98">0</span>
+        <span class="stat-item-label">% رضا العملاء</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <div class="section-header animate-on-scroll">
+      <span class="section-badge">⚡ المميزات</span>
+      <h2 class="section-title">كل ما تحتاجه لبيع أونلاين</h2>
+      <p class="section-subtitle">منصة متكاملة مصممة خصيصاً للسوق الجزائري</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">🏪</span>
+        <h3 class="feature-title">متجر جاهز في دقائق</h3>
+        <p class="feature-desc">أنشئ متجرك الإلكتروني بنقرات بسيطة. احصل على رابط مخصص ودومين فرعي فوراً لبدء البيع.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">📦</span>
+        <h3 class="feature-title">إدارة المنتجات</h3>
+        <p class="feature-desc">أضف منتجاتك بصور متعددة، ألوان، مقاسات، أسعار وأوصاف تفصيلية. تحكم كامل في مخزونك.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">🛒</span>
+        <h3 class="feature-title">نظام الطلبات COD</h3>
+        <p class="feature-desc">استقبل الطلبات مع الدفع عند الاستلام. تتبع كل طلب من المعلق إلى التوصيل بسهولة.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">🚚</span>
+        <h3 class="feature-title">تكامل شركات التوصيل</h3>
+        <p class="feature-desc">ربط مباشر مع Yalidine وEcoTrack. أرسل شحناتك بنقرة واحدة واحصل على رقم التتبع تلقائياً.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">🛡️</span>
+        <h3 class="feature-title">مكافحة الطلبات الوهمية</h3>
+        <p class="feature-desc">نظام ذكي يحلل كل طلب ويكشف الأرقام الوهمية والتكرار قبل معالجة الشحنة. وفر خسائر الشحن.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">📄</span>
+        <h3 class="feature-title">صفحات الهبوط</h3>
+        <p class="feature-desc">قوالب جاهزة وجذابة مع عداد تنازلي وأزرار طلب محسنة لرفع معدل التحويل.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">📊</span>
+        <h3 class="feature-title">لوحة تحكم ذكية</h3>
+        <p class="feature-desc">إحصائيات لحظية للمبيعات، الأرباح، أفضل الولايات والمنتجات مع رسوم بيانية تفصيلية.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">👥</span>
+        <h3 class="feature-title">إدارة العملاء</h3>
+        <p class="feature-desc">قاعدة بيانات لجميع عملائك مع سجل الطلبات ومعدل التوصيل لكل عميل.</p>
+      </div>
+      <div class="feature-card animate-on-scroll">
+        <span class="feature-icon">📱</span>
+        <h3 class="feature-title">متوافق مع الجوال</h3>
+        <p class="feature-desc">إدارة متجرك من هاتفك أو الكمبيوتر. متجرك يبدو رائعاً على جميع الشاشات.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shipping Section -->
+  <section class="shipping-section">
+    <div class="shipping-inner container">
+      <div class="animate-on-scroll">
+        <span class="section-badge">🚚 التوصيل</span>
+        <h2 class="section-title" style="margin-top:12px;">تكامل مع أفضل شركات التوصيل</h2>
+        <p style="color:var(--gray);line-height:1.7;margin-bottom:0;">
+          ربط مباشر وآمن مع شركات التوصيل الجزائرية المعتمدة. لا مزيد من الإدخال اليدوي للبيانات.
+        </p>
+        <div class="shipping-features">
+          <div class="shipping-feature">
+            <span>⚡</span>
+            <span>إنشاء الشحنة تلقائياً عند تأكيد الطلب</span>
+          </div>
+          <div class="shipping-feature">
+            <span>📍</span>
+            <span>رقم التتبع يُحفظ مباشرة في الطلب</span>
+          </div>
+          <div class="shipping-feature">
+            <span>🗺️</span>
+            <span>تغطية جميع ولايات الجزائر الـ 58</span>
+          </div>
+          <div class="shipping-feature">
+            <span>💰</span>
+            <span>دفع عند الاستلام (COD) بشكل افتراضي</span>
+          </div>
+          <div class="shipping-feature">
+            <span>🔑</span>
+            <span>أضف مفتاح API الخاص بك بسهولة</span>
+          </div>
+        </div>
+        <div class="shipping-companies">
+          <div class="shipping-company">
+            <div class="shipping-co-icon">🚛</div>
+            <div>
+              <div class="shipping-co-name">Yalidine</div>
+              <div class="shipping-co-desc">شركة التوصيل الرائدة</div>
+            </div>
+          </div>
+          <div class="shipping-company">
+            <div class="shipping-co-icon">📮</div>
+            <div>
+              <div class="shipping-co-name">EcoTrack</div>
+              <div class="shipping-co-desc">توصيل سريع وموثوق</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="animate-on-scroll" style="background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:24px;padding:40px;color:white;text-align:center;">
+        <div style="font-size:64px;margin-bottom:20px;">🛡️</div>
+        <h3 style="font-size:22px;font-weight:900;color:white;margin-bottom:12px;">نظام مكافحة الطلبات الوهمية</h3>
+        <p style="color:rgba(255,255,255,0.85);line-height:1.7;margin-bottom:24px;">يحلل نظامنا الذكي كل طلب بناءً على رقم الهاتف، التكرار، والسلوك لمنع الطلبات المزيفة قبل الشحن.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:16px;">
+            <div style="font-size:32px;font-weight:900;">-40%</div>
+            <div style="font-size:13px;opacity:0.8;">تقليل الطلبات الوهمية</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.15);border-radius:12px;padding:16px;">
+            <div style="font-size:32px;font-weight:900;">+30%</div>
+            <div style="font-size:13px;opacity:0.8;">توفير في تكاليف الشحن</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <div class="section-header animate-on-scroll">
+      <span class="section-badge">💎 الأسعار</span>
+      <h2 class="section-title">خطط مناسبة للجميع</h2>
+      <p class="section-subtitle">ابدأ مجاناً، وقم بالترقية عندما تنمو</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="pricing-card animate-on-scroll">
+        <div class="plan-name">أساسي</div>
+        <div class="plan-price">1,490<span style="font-size:18px;font-weight:400"> دج</span></div>
+        <div class="plan-price-label">/ شهرياً</div>
+        <ul class="plan-features">
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> 20 منتج</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> 200 طلب/شهر</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> متجر أونلاين</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> صفحة هبوط واحدة</li>
+          <li class="plan-feature"><span class="plan-feature-icon">❌</span> تكامل شركات التوصيل</li>
+          <li class="plan-feature"><span class="plan-feature-icon">❌</span> نظام مكافحة الطلبات الوهمية</li>
+        </ul>
+        <a href="register.html" class="plan-btn">ابدأ الآن</a>
+      </div>
+
+      <div class="pricing-card popular animate-on-scroll">
+        <div class="popular-badge">⭐ الأكثر شيوعاً</div>
+        <div class="plan-name" style="color:var(--gray);">احترافي</div>
+        <div class="plan-price" style="color:var(--primary);">3,990<span style="font-size:18px;font-weight:400;color:var(--gray)"> دج</span></div>
+        <div class="plan-price-label" style="color:var(--gray);">/ شهرياً</div>
+        <ul class="plan-features">
+          <li class="plan-feature" style="color:var(--dark);"><span class="plan-feature-icon">✅</span> منتجات غير محدودة</li>
+          <li class="plan-feature" style="color:var(--dark);"><span class="plan-feature-icon">✅</span> طلبات غير محدودة</li>
+          <li class="plan-feature" style="color:var(--dark);"><span class="plan-feature-icon">✅</span> متجر + دومين مخصص</li>
+          <li class="plan-feature" style="color:var(--dark);"><span class="plan-feature-icon">✅</span> 5 صفحات هبوط</li>
+          <li class="plan-feature" style="color:var(--dark);"><span class="plan-feature-icon">✅</span> تكامل Yalidine + EcoTrack</li>
+          <li class="plan-feature" style="color:var(--dark);"><span class="plan-feature-icon">✅</span> مكافحة الطلبات الوهمية</li>
+        </ul>
+        <a href="register.html" class="plan-btn">ابدأ الآن</a>
+      </div>
+
+      <div class="pricing-card animate-on-scroll">
+        <div class="plan-name">مؤسسي</div>
+        <div class="plan-price">7,990<span style="font-size:18px;font-weight:400"> دج</span></div>
+        <div class="plan-price-label">/ شهرياً</div>
+        <ul class="plan-features">
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> كل مميزات الاحترافي</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> متاجر متعددة</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> API مخصص</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> دعم أولوية 24/7</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> تقارير متقدمة</li>
+          <li class="plan-feature"><span class="plan-feature-icon">✅</span> تدريب شخصي</li>
+        </ul>
+        <a href="register.html" class="plan-btn">اتصل بنا</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-header animate-on-scroll">
+      <span class="section-badge">💬 آراء</span>
+      <h2 class="section-title">ماذا يقول عملاؤنا</h2>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card animate-on-scroll">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"منصة رائعة! وفرت عليّ ساعات من العمل اليومي. الآن أدير متجري كاملاً من هاتفي وأرسل الشحنات تلقائياً مع Yalidine."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">م</div>
+          <div>
+            <div class="testimonial-name">محمد بن علي</div>
+            <div class="testimonial-store">متجر الإلكترونيات - وهران</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"نظام مكافحة الطلبات الوهمية أنقذني! كنت أخسر في الشحن كثيراً. الآن انخفضت الطلبات الوهمية بنسبة 60% تقريباً."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">أ</div>
+          <div>
+            <div class="testimonial-name">أمينة حداد</div>
+            <div class="testimonial-store">متجر الأزياء - الجزائر العاصمة</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card animate-on-scroll">
+        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+        <p class="testimonial-text">"صفحات الهبوط جميلة جداً والعداد التنازلي يزيد من المبيعات بشكل واضح. أنصح كل بائع أونلاين جزائري باستخدام المنصة."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">ي</div>
+          <div>
+            <div class="testimonial-name">يوسف قادري</div>
+            <div class="testimonial-store">متجر مستلزمات الرياضة - قسنطينة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="animate-on-scroll">
+      <h2 class="cta-title">ابدأ البيع اليوم 🚀</h2>
+      <p class="cta-subtitle">انضم إلى أكثر من 500 تاجر جزائري ناجح على المنصة</p>
+      <a href="register.html" class="btn btn-primary btn-xl" style="display:inline-flex;gap:10px;">
+        <span>🎁</span>
+        أنشئ متجرك مجاناً
+      </a>
+      <p style="color:rgba(255,255,255,0.4);font-size:13px;margin-top:20px;">30 يوم تجريبي • لا يلزم بطاقة بنكية • إعداد فوري</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div style="width:36px;height:36px;background:var(--primary);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;">🛍️</div>
+            DZ Store
+          </div>
+          <p class="footer-desc">منصة التجارة الإلكترونية الأولى المصممة خصيصاً للسوق الجزائري. بيع أكثر، اشحن أذكى.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-btn">f</a>
+            <a href="#" class="footer-social-btn">in</a>
+            <a href="#" class="footer-social-btn">tw</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">المنصة</div>
+          <a href="#features" class="footer-link">المميزات</a>
+          <a href="#pricing" class="footer-link">الأسعار</a>
+          <a href="register.html" class="footer-link">إنشاء حساب</a>
+          <a href="login.html" class="footer-link">تسجيل الدخول</a>
+        </div>
+        <div>
+          <div class="footer-col-title">التوصيل</div>
+          <a href="#" class="footer-link">Yalidine</a>
+          <a href="#" class="footer-link">EcoTrack</a>
+          <a href="#" class="footer-link">الولايات الـ 58</a>
+        </div>
+        <div>
+          <div class="footer-col-title">الدعم</div>
+          <a href="#" class="footer-link">مركز المساعدة</a>
+          <a href="#" class="footer-link">اتصل بنا</a>
+          <a href="#" class="footer-link">سياسة الخصوصية</a>
+          <a href="#" class="footer-link">الشروط والأحكام</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2025 DZ Store. جميع الحقوق محفوظة.</div>
+        <div>صُنع بـ ❤️ في الجزائر 🇩🇿</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Counter animation
+    function animateCounter(el, target, duration = 2000) {
+      let start = 0;
+      const step = target / (duration / 16);
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) {
+          start = target;
+          clearInterval(timer);
+        }
+        el.textContent = Math.floor(start).toLocaleString('ar');
+      }, 16);
+    }
+
+    // Scroll animation observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // Animate counters
+          const counter = entry.target.querySelector('[data-count]');
+          if (counter && !counter.dataset.animated) {
+            counter.dataset.animated = 'true';
+            animateCounter(counter, parseInt(counter.dataset.count));
+          }
+
+          entry.target.querySelectorAll('[data-count]').forEach(el => {
+            if (!el.dataset.animated) {
+              el.dataset.animated = 'true';
+              animateCounter(el, parseInt(el.dataset.count));
+            }
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

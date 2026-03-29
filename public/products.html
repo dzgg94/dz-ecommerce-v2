@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المنتجات - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛍️</div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">DZ Store</div>
+        <div class="sidebar-logo-plan" data-user-plan>أساسي</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">الرئيسية</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>لوحة التحكم</a>
+      <div class="nav-section">المتجر</div>
+      <a href="products.html" class="nav-item active"><span class="nav-icon">📦</span>المنتجات</a>
+      <a href="orders.html" class="nav-item"><span class="nav-icon">🛒</span>الطلبات</a>
+      <a href="customers.html" class="nav-item"><span class="nav-icon">👥</span>العملاء</a>
+      <div class="nav-section">الإعدادات</div>
+      <a href="store-builder.html" class="nav-item"><span class="nav-icon">🏪</span>إعدادات المتجر</a>
+      <a href="landing-builder.html" class="nav-item"><span class="nav-icon">📄</span>صفحات الهبوط</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" data-user-avatar>م</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-user-name>المستخدم</div>
+          <div class="sidebar-user-email" data-user-email>email</div>
+        </div>
+      </div>
+      <button class="nav-item w-full" data-action="logout" style="border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-align:right;font-family:inherit;font-size:14px;font-weight:500;margin-top:4px;">
+        <span class="nav-icon">🚪</span>تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="breadcrumb">
+          <a href="dashboard.html" class="breadcrumb-item">الرئيسية</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-item active">المنتجات</span>
+        </div>
+      </div>
+      <div class="topbar-left">
+        <button class="btn btn-primary" id="addProductBtn">
+          ➕ إضافة منتج
+        </button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">المنتجات 📦</h1>
+          <p class="page-subtitle" id="productsCount">جاري التحميل...</p>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-ghost btn-sm" id="viewGridBtn" title="عرض شبكي">⊞</button>
+          <button class="btn btn-ghost btn-sm" id="viewListBtn" title="عرض قائمة">☰</button>
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <div class="search-input-wrapper">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="form-control" id="searchInput" placeholder="ابحث عن منتج...">
+        </div>
+        <select class="form-control" id="statusFilter">
+          <option value="">كل الحالات</option>
+          <option value="available">متوفر</option>
+          <option value="unavailable">غير متوفر</option>
+          <option value="out_of_stock">نفذت الكمية</option>
+        </select>
+        <button class="btn btn-danger btn-sm" id="bulkDeleteBtn" style="display:none;">
+          🗑️ حذف المحدد (<span id="selectedCount">0</span>)
+        </button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Skeleton -->
+        <div class="product-card"><div style="height:200px;" class="skeleton"></div><div style="padding:16px;"><div class="skeleton" style="height:20px;margin-bottom:8px;"></div><div class="skeleton" style="height:28px;width:60%;"></div></div></div>
+        <div class="product-card"><div style="height:200px;" class="skeleton"></div><div style="padding:16px;"><div class="skeleton" style="height:20px;margin-bottom:8px;"></div><div class="skeleton" style="height:28px;width:60%;"></div></div></div>
+        <div class="product-card"><div style="height:200px;" class="skeleton"></div><div style="padding:16px;"><div class="skeleton" style="height:20px;margin-bottom:8px;"></div><div class="skeleton" style="height:28px;width:60%;"></div></div></div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" style="display:none;text-align:center;padding:80px 24px;">
+        <div style="font-size:80px;margin-bottom:20px;">📦</div>
+        <h3 style="font-size:22px;font-weight:800;margin-bottom:8px;">لا توجد منتجات بعد</h3>
+        <p style="color:var(--gray);margin-bottom:28px;">ابدأ بإضافة منتجاتك لعرضها في متجرك</p>
+        <button class="btn btn-primary btn-lg" onclick="openProductModal()">➕ أضف منتجك الأول</button>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination" style="display:none;"></div>
+    </div>
+  </main>
+</div>
+
+<!-- Add/Edit Product Modal -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modalTitle">إضافة منتج جديد</h2>
+      <button class="modal-close" onclick="closeProductModal()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-danger" id="modalError" style="display:none;"></div>
+      <form id="productForm" novalidate>
+        <input type="hidden" id="productId">
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group" style="grid-column:1/-1;">
+            <label class="form-label required">اسم المنتج</label>
+            <input type="text" class="form-control" id="productName" placeholder="مثال: سماعة لاسلكية بلوتوث" required>
+            <div class="form-error" id="productNameError">اسم المنتج مطلوب</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">السعر (دج)</label>
+            <input type="number" class="form-control" id="productPrice" placeholder="2500" min="0" required>
+            <div class="form-error" id="productPriceError">السعر مطلوب</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">الحالة</label>
+            <select class="form-control" id="productStatus">
+              <option value="available">✅ متوفر</option>
+              <option value="unavailable">❌ غير متوفر</option>
+              <option value="out_of_stock">⚠️ نفذت الكمية</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">وصف المنتج</label>
+          <textarea class="form-control" id="productDescription" rows="3" placeholder="اكتب وصفاً تفصيلياً للمنتج..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">صور المنتج (روابط URL - كل رابط في سطر)</label>
+          <textarea class="form-control" id="productImages" rows="3" placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" dir="ltr" style="text-align:left;font-size:12px;"></textarea>
+          <div class="form-text">أدخل روابط الصور، كل رابط في سطر جديد</div>
+        </div>
+
+        <!-- Image Preview -->
+        <div id="imagePreview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="form-group">
+            <label class="form-label">الألوان المتاحة</label>
+            <div id="colorsContainer" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;"></div>
+            <div style="display:flex;gap:8px;">
+              <input type="text" class="form-control" id="colorInput" placeholder="مثال: أحمر، أسود..." style="flex:1;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addVariant('color')">+ إضافة</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">المقاسات المتاحة</label>
+            <div id="sizesContainer" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;"></div>
+            <div style="display:flex;gap:8px;">
+              <input type="text" class="form-control" id="sizeInput" placeholder="مثال: S, M, L, XL" style="flex:1;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addVariant('size')">+ إضافة</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeProductModal()">إلغاء</button>
+      <button class="btn btn-primary" id="saveProductBtn" onclick="saveProduct()">
+        💾 حفظ المنتج
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirm Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h2 class="modal-title">🗑️ تأكيد الحذف</h2>
+      <button class="modal-close" onclick="document.getElementById('deleteModal').classList.remove('show')">×</button>
+    </div>
+    <div class="modal-body" style="text-align:center;padding:32px;">
+      <div style="font-size:48px;margin-bottom:16px;">⚠️</div>
+      <p style="font-size:16px;font-weight:600;margin-bottom:8px;">هل أنت متأكد من حذف هذا المنتج؟</p>
+      <p style="color:var(--gray);font-size:14px;">هذا الإجراء لا يمكن التراجع عنه</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="document.getElementById('deleteModal').classList.remove('show')">إلغاء</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn">🗑️ حذف</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  if (!initDashboard()) { /* redirected */ }
+
+  let products = [];
+  let currentPage = 1;
+  let totalPages = 1;
+  let selectedProducts = new Set();
+  let colors = [];
+  let sizes = [];
+  let deleteProductId = null;
+  let viewMode = 'grid';
+
+  // Load products
+  async function loadProducts(page = 1) {
+    currentPage = page;
+    const search = document.getElementById('searchInput').value;
+    const status = document.getElementById('statusFilter').value;
+
+    try {
+      const result = await api.getProducts({ page, limit: 12, search, status });
+      products = result.data || [];
+      totalPages = result.pages || 1;
+      
+      document.getElementById('productsCount').textContent = `${result.total || 0} منتج`;
+      
+      if (products.length === 0 && page === 1 && !search && !status) {
+        document.getElementById('productsGrid').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'block';
+      } else {
+        document.getElementById('productsGrid').style.display = '';
+        document.getElementById('emptyState').style.display = 'none';
+        renderProducts();
+        renderPagination();
+      }
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    
+    if (products.length === 0) {
+      grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray);">
+        <div style="font-size:48px;margin-bottom:12px;">🔍</div>
+        <div style="font-weight:600;">لا توجد منتجات مطابقة للبحث</div>
+      </div>`;
+      return;
+    }
+
+    grid.innerHTML = products.map(product => {
+      const img = product.images?.[0];
+      return `
+      <div class="product-card" data-id="${product._id}">
+        <div class="product-image">
+          ${img 
+            ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(product.name)}" loading="lazy">` 
+            : `<span class="no-image">📦</span>`
+          }
+          <div class="product-actions">
+            <button class="product-action-btn" onclick="editProduct('${product._id}')" title="تعديل" style="color:var(--primary);">✏️</button>
+            <button class="product-action-btn" onclick="confirmDelete('${product._id}')" title="حذف" style="color:var(--danger);">🗑️</button>
+          </div>
+          <div class="product-status-badge">
+            <span class="badge ${getProductStatusClass(product.status)}">${getProductStatusLabel(product.status)}</span>
+          </div>
+        </div>
+        <div class="product-info">
+          <div style="display:flex;align-items:flex-start;gap:8px;">
+            <input type="checkbox" onchange="toggleSelect('${product._id}', this.checked)" style="margin-top:4px;accent-color:var(--primary);">
+            <div style="flex:1;">
+              <div class="product-name">${escapeHtml(product.name)}</div>
+              <div class="product-price">${formatCurrency(product.price)} <span>/ وحدة</span></div>
+            </div>
+          </div>
+          <div class="product-meta">
+            <span>📦 ${product.ordersCount || 0} طلب</span>
+            <div style="display:flex;gap:8px;">
+              ${(product.variants?.colors || []).map(c => `<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${escapeHtml(c)};border:1px solid #ddd;" title="${escapeHtml(c)}"></span>`).join('')}
+              ${(product.variants?.sizes || []).map(s => `<span style="font-size:11px;background:var(--light);padding:2px 6px;border-radius:4px;">${escapeHtml(s)}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderPagination() {
+    const pag = document.getElementById('pagination');
+    if (totalPages <= 1) { pag.style.display = 'none'; return; }
+    
+    pag.style.display = 'flex';
+    let html = `<button class="page-btn" onclick="loadProducts(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${i===currentPage?'active':''}" onclick="loadProducts(${i})">${i}</button>`;
+    }
+    html += `<button class="page-btn" onclick="loadProducts(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+    pag.innerHTML = html;
+  }
+
+  // Select/Deselect
+  function toggleSelect(id, checked) {
+    if (checked) selectedProducts.add(id);
+    else selectedProducts.delete(id);
+    
+    const bulkBtn = document.getElementById('bulkDeleteBtn');
+    const countEl = document.getElementById('selectedCount');
+    
+    if (selectedProducts.size > 0) {
+      bulkBtn.style.display = 'flex';
+      countEl.textContent = selectedProducts.size;
+    } else {
+      bulkBtn.style.display = 'none';
+    }
+  }
+
+  // Open modal for add
+  function openProductModal() {
+    document.getElementById('productId').value = '';
+    document.getElementById('productForm').reset();
+    document.getElementById('colorsContainer').innerHTML = '';
+    document.getElementById('sizesContainer').innerHTML = '';
+    document.getElementById('imagePreview').innerHTML = '';
+    document.getElementById('modalTitle').textContent = 'إضافة منتج جديد';
+    document.getElementById('modalError').style.display = 'none';
+    colors = [];
+    sizes = [];
+    document.getElementById('productModal').classList.add('show');
+  }
+
+  // Edit product
+  async function editProduct(id) {
+    const product = products.find(p => p._id === id);
+    if (!product) return;
+
+    document.getElementById('productId').value = product._id;
+    document.getElementById('productName').value = product.name;
+    document.getElementById('productPrice').value = product.price;
+    document.getElementById('productStatus').value = product.status;
+    document.getElementById('productDescription').value = product.description || '';
+    document.getElementById('productImages').value = (product.images || []).join('\n');
+    document.getElementById('modalTitle').textContent = 'تعديل المنتج';
+    document.getElementById('modalError').style.display = 'none';
+
+    colors = [...(product.variants?.colors || [])];
+    sizes = [...(product.variants?.sizes || [])];
+    renderVariantChips('colorsContainer', colors, 'color');
+    renderVariantChips('sizesContainer', sizes, 'size');
+    updateImagePreview();
+    
+    document.getElementById('productModal').classList.add('show');
+  }
+
+  // Close modal
+  function closeProductModal() {
+    document.getElementById('productModal').classList.remove('show');
+  }
+
+  // Add variant
+  function addVariant(type) {
+    const input = document.getElementById(type === 'color' ? 'colorInput' : 'sizeInput');
+    const value = input.value.trim();
+    if (!value) return;
+
+    if (type === 'color') {
+      if (!colors.includes(value)) {
+        colors.push(value);
+        renderVariantChips('colorsContainer', colors, 'color');
+      }
+    } else {
+      if (!sizes.includes(value)) {
+        sizes.push(value);
+        renderVariantChips('sizesContainer', sizes, 'size');
+      }
+    }
+    input.value = '';
+  }
+
+  function renderVariantChips(containerId, items, type) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = items.map((item, i) => `
+      <span style="display:inline-flex;align-items:center;gap:6px;background:var(--light);border:1px solid var(--border);padding:4px 10px;border-radius:20px;font-size:13px;">
+        ${escapeHtml(item)}
+        <button type="button" onclick="removeVariant('${type}', ${i})" style="border:none;background:none;cursor:pointer;color:var(--danger);font-size:14px;line-height:1;">×</button>
+      </span>
+    `).join('');
+  }
+
+  function removeVariant(type, index) {
+    if (type === 'color') {
+      colors.splice(index, 1);
+      renderVariantChips('colorsContainer', colors, 'color');
+    } else {
+      sizes.splice(index, 1);
+      renderVariantChips('sizesContainer', sizes, 'size');
+    }
+  }
+
+  // Update image preview
+  document.getElementById('productImages').addEventListener('input', updateImagePreview);
+  
+  function updateImagePreview() {
+    const urls = document.getElementById('productImages').value.split('\n').filter(u => u.trim());
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = urls.slice(0, 5).map(url => `
+      <div style="width:60px;height:60px;border-radius:8px;overflow:hidden;border:2px solid var(--border);">
+        <img src="${escapeHtml(url.trim())}" style="width:100%;height:100%;object-fit:cover;" onerror="this.src='';this.parentElement.innerHTML='❌'">
+      </div>
+    `).join('');
+  }
+
+  // Save product
+  async function saveProduct() {
+    const id = document.getElementById('productId').value;
+    const name = document.getElementById('productName').value.trim();
+    const price = document.getElementById('productPrice').value;
+    const status = document.getElementById('productStatus').value;
+    const description = document.getElementById('productDescription').value.trim();
+    const imagesText = document.getElementById('productImages').value;
+    const images = imagesText.split('\n').map(u => u.trim()).filter(u => u);
+
+    const btn = document.getElementById('saveProductBtn');
+    const errorEl = document.getElementById('modalError');
+
+    // Validate
+    let isValid = true;
+    document.querySelectorAll('#productForm .form-error').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('#productForm .form-control').forEach(el => el.classList.remove('is-invalid'));
+
+    if (!name) {
+      document.getElementById('productName').classList.add('is-invalid');
+      document.getElementById('productNameError').classList.add('show');
+      isValid = false;
+    }
+
+    if (!price || isNaN(price) || parseFloat(price) < 0) {
+      document.getElementById('productPrice').classList.add('is-invalid');
+      document.getElementById('productPriceError').classList.add('show');
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    errorEl.style.display = 'none';
+    btn.disabled = true;
+    btn.innerHTML = '<span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite;margin-left:8px;"></span> جاري الحفظ...';
+
+    const data = { name, price: parseFloat(price), status, description, images, variants: { colors, sizes } };
+
+    try {
+      if (id) {
+        await api.updateProduct(id, data);
+        Toast.success('تم التحديث', 'تم تحديث المنتج بنجاح');
+      } else {
+        await api.createProduct(data);
+        Toast.success('تمت الإضافة', 'تم إضافة المنتج بنجاح');
+      }
+      closeProductModal();
+      loadProducts(id ? currentPage : 1);
+    } catch (err) {
+      errorEl.textContent = err.message;
+      errorEl.style.display = 'flex';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '💾 حفظ المنتج';
+    }
+  }
+
+  // Confirm delete
+  function confirmDelete(id) {
+    deleteProductId = id;
+    document.getElementById('deleteModal').classList.add('show');
+  }
+
+  document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+    if (!deleteProductId) return;
+    this.disabled = true;
+    try {
+      await api.deleteProduct(deleteProductId);
+      Toast.success('تم الحذف', 'تم حذف المنتج بنجاح');
+      document.getElementById('deleteModal').classList.remove('show');
+      loadProducts(currentPage);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    } finally {
+      this.disabled = false;
+      deleteProductId = null;
+    }
+  });
+
+  // Bulk delete
+  document.getElementById('bulkDeleteBtn').addEventListener('click', async function() {
+    if (!confirm(`هل أنت متأكد من حذف ${selectedProducts.size} منتج؟`)) return;
+    
+    try {
+      await api.deleteProducts([...selectedProducts]);
+      Toast.success('تم الحذف', `تم حذف ${selectedProducts.size} منتج`);
+      selectedProducts.clear();
+      this.style.display = 'none';
+      loadProducts(1);
+    } catch (err) {
+      Toast.error('خطأ', err.message);
+    }
+  });
+
+  // Search & filter
+  const debouncedSearch = debounce(() => loadProducts(1), 400);
+  document.getElementById('searchInput').addEventListener('input', debouncedSearch);
+  document.getElementById('statusFilter').addEventListener('change', () => loadProducts(1));
+
+  // Add product button
+  document.getElementById('addProductBtn').addEventListener('click', openProductModal);
+
+  // Enter key in variant inputs
+  ['colorInput', 'sizeInput'].forEach(id => {
+    document.getElementById(id).addEventListener('keypress', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addVariant(id.replace('Input', '').replace('color', 'color').replace('size', 'size'));
+      }
+    });
+  });
+
+  // Close modals on overlay click
+  document.getElementById('productModal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeProductModal();
+  });
+
+  loadProducts();
+</script>
+</body>
+</html>

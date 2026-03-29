@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إعدادات المتجر - DZ Store</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">🛍️</div>
+      <div class="sidebar-logo-text">
+        <div class="sidebar-logo-name">DZ Store</div>
+        <div class="sidebar-logo-plan" data-user-plan>أساسي</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">الرئيسية</div>
+      <a href="dashboard.html" class="nav-item"><span class="nav-icon">📊</span>لوحة التحكم</a>
+      <div class="nav-section">المتجر</div>
+      <a href="products.html" class="nav-item"><span class="nav-icon">📦</span>المنتجات</a>
+      <a href="orders.html" class="nav-item"><span class="nav-icon">🛒</span>الطلبات</a>
+      <a href="customers.html" class="nav-item"><span class="nav-icon">👥</span>العملاء</a>
+      <div class="nav-section">الإعدادات</div>
+      <a href="store-builder.html" class="nav-item active"><span class="nav-icon">🏪</span>إعدادات المتجر</a>
+      <a href="landing-builder.html" class="nav-item"><span class="nav-icon">📄</span>صفحات الهبوط</a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" data-user-avatar>م</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" data-user-name>المستخدم</div>
+          <div class="sidebar-user-email" data-user-email>email</div>
+        </div>
+      </div>
+      <button class="nav-item w-full" data-action="logout" style="border:none;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;text-align:right;font-family:inherit;font-size:14px;font-weight:500;margin-top:4px;">
+        <span class="nav-icon">🚪</span>تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <main class="main-content">
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="breadcrumb">
+          <a href="dashboard.html" class="breadcrumb-item">الرئيسية</a>
+          <span class="breadcrumb-sep">›</span>
+          <span class="breadcrumb-item active">إعدادات المتجر</span>
+        </div>
+      </div>
+      <div class="topbar-left">
+        <a id="viewStoreBtn" href="#" target="_blank" class="btn btn-ghost btn-sm">🔗 معاينة المتجر</a>
+        <button class="btn btn-primary" onclick="saveStore()">💾 حفظ الإعدادات</button>
+      </div>
+    </header>
+
+    <div class="page-content">
+      <div class="alert alert-success" id="successAlert" style="display:none;">✅ تم حفظ إعدادات المتجر بنجاح!</div>
+      <div class="alert alert-danger" id="errorAlert" style="display:none;"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+
+        <!-- Left Column: Settings -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- Basic Info -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🏪 معلومات المتجر الأساسية</div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label required">اسم المتجر</label>
+                <input type="text" class="form-control" id="storeName" placeholder="اسم متجرك">
+              </div>
+              <div class="form-group">
+                <label class="form-label">الرابط (Subdomain)</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <input type="text" class="form-control" id="storeSubdomain" readonly style="flex:1;background:var(--light);color:var(--primary);font-weight:700;">
+                  <span style="font-size:13px;color:var(--gray);white-space:nowrap;">.dzstore.dz</span>
+                </div>
+                <div class="form-text">الرابط لا يمكن تغييره حالياً</div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">وصف المتجر</label>
+                <textarea class="form-control" id="storeDescription" rows="3" placeholder="اكتب وصفاً مختصراً لمتجرك..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">شعار المتجر (Logo URL)</label>
+                <input type="url" class="form-control" id="storeLogo" placeholder="https://example.com/logo.png" dir="ltr" style="text-align:right;">
+                <div id="logoPreview" style="margin-top:8px;display:none;">
+                  <img id="logoImg" src="" style="height:60px;border-radius:8px;border:1px solid var(--border);padding:4px;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colors -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎨 ألوان المتجر</div>
+            </div>
+            <div class="card-body">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div class="form-group">
+                  <label class="form-label">اللون الأساسي</label>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <input type="color" id="primaryColor" value="#6C5CE7" style="width:48px;height:40px;border:none;border-radius:8px;cursor:pointer;padding:2px;">
+                    <input type="text" class="form-control" id="primaryColorText" value="#6C5CE7" style="flex:1;" maxlength="7" dir="ltr">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">اللون الثانوي</label>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <input type="color" id="secondaryColor" value="#00CEC9" style="width:48px;height:40px;border:none;border-radius:8px;cursor:pointer;padding:2px;">
+                    <input type="text" class="form-control" id="secondaryColorText" value="#00CEC9" style="flex:1;" maxlength="7" dir="ltr">
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Color Presets -->
+              <div>
+                <label class="form-label">قوالب الألوان الجاهزة</label>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button onclick="setColorPreset('#6C5CE7','#00CEC9')" style="display:flex;gap:4px;align-items:center;padding:8px 12px;border-radius:8px;border:2px solid var(--border);background:white;cursor:pointer;">
+                    <span style="width:16px;height:16px;background:#6C5CE7;border-radius:4px;"></span>
+                    <span style="width:16px;height:16px;background:#00CEC9;border-radius:4px;"></span>
+                    <span style="font-size:12px;font-weight:600;font-family:Cairo;">بنفسجي</span>
+                  </button>
+                  <button onclick="setColorPreset('#E17055','#FDCB6E')" style="display:flex;gap:4px;align-items:center;padding:8px 12px;border-radius:8px;border:2px solid var(--border);background:white;cursor:pointer;">
+                    <span style="width:16px;height:16px;background:#E17055;border-radius:4px;"></span>
+                    <span style="width:16px;height:16px;background:#FDCB6E;border-radius:4px;"></span>
+                    <span style="font-size:12px;font-weight:600;font-family:Cairo;">احمر</span>
+                  </button>
+                  <button onclick="setColorPreset('#00B894','#55efc4')" style="display:flex;gap:4px;align-items:center;padding:8px 12px;border-radius:8px;border:2px solid var(--border);background:white;cursor:pointer;">
+                    <span style="width:16px;height:16px;background:#00B894;border-radius:4px;"></span>
+                    <span style="width:16px;height:16px;background:#55efc4;border-radius:4px;"></span>
+                    <span style="font-size:12px;font-weight:600;font-family:Cairo;">أخضر</span>
+                  </button>
+                  <button onclick="setColorPreset('#2D3436','#6C5CE7')" style="display:flex;gap:4px;align-items:center;padding:8px 12px;border-radius:8px;border:2px solid var(--border);background:white;cursor:pointer;">
+                    <span style="width:16px;height:16px;background:#2D3436;border-radius:4px;"></span>
+                    <span style="width:16px;height:16px;background:#6C5CE7;border-radius:4px;"></span>
+                    <span style="font-size:12px;font-weight:600;font-family:Cairo;">داكن</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SEO -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🔍 تحسين محركات البحث (SEO)</div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">عنوان الصفحة (SEO Title)</label>
+                <input type="text" class="form-control" id="seoTitle" placeholder="متجرك للإلكترونيات - أفضل الأسعار">
+              </div>
+              <div class="form-group">
+                <label class="form-label">وصف الصفحة (Meta Description)</label>
+                <textarea class="form-control" id="seoDescription" rows="2" placeholder="اشتر أفضل المنتجات بأسعار منافسة مع توصيل سريع..."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Shipping + Social -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- Shipping Settings -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🚚 إعدادات التوصيل</div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">شركة التوصيل الافتراضية</label>
+                <select class="form-control" id="shippingProvider">
+                  <option value="yalidine">🚛 Yalidine</option>
+                  <option value="ecotrack">📮 EcoTrack</option>
+                </select>
+              </div>
+
+              <div style="margin-bottom:16px;">
+                <label class="checkbox-label" style="cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;">
+                  <input type="checkbox" id="freeShipping" style="accent-color:var(--primary);width:16px;height:16px;">
+                  توصيل مجاني
+                </label>
+              </div>
+
+              <div style="margin-bottom:20px;">
+                <label class="checkbox-label" style="cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;">
+                  <input type="checkbox" id="stopDesk" style="accent-color:var(--primary);width:16px;height:16px;">
+                  Stop Desk (استلام من المكتب)
+                </label>
+              </div>
+
+              <div style="border-top:1px solid var(--border);padding-top:16px;margin-top:16px;">
+                <h4 style="font-size:14px;font-weight:700;margin-bottom:12px;">🔑 مفاتيح API للتوصيل</h4>
+                
+                <div style="background:var(--light);border-radius:10px;padding:16px;margin-bottom:12px;">
+                  <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                    🚛 Yalidine API
+                  </div>
+                  <div class="form-group" style="margin-bottom:10px;">
+                    <input type="text" class="form-control" id="yalidineApiId" placeholder="API ID" dir="ltr" style="font-size:13px;">
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <input type="password" class="form-control" id="yalidineApiToken" placeholder="API Token" dir="ltr" style="font-size:13px;">
+                  </div>
+                </div>
+
+                <div style="background:var(--light);border-radius:10px;padding:16px;">
+                  <div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                    📮 EcoTrack API
+                  </div>
+                  <div class="form-group" style="margin-bottom:0;">
+                    <input type="password" class="form-control" id="ecotrackApiKey" placeholder="API Key" dir="ltr" style="font-size:13px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Links -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🔗 روابط التواصل الاجتماعي</div>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label class="form-label">WhatsApp</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:20px;">📱</span>
+                  <input type="tel" class="form-control" id="socialWhatsapp" placeholder="0550000000" dir="ltr" style="text-align:right;">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Facebook</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:20px;">f</span>
+                  <input type="url" class="form-control" id="socialFacebook" placeholder="https://facebook.com/page" dir="ltr" style="text-align:right;">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Instagram</label>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span style="font-size:20px;">📷</span>
+                  <input type="text" class="form-control" id="socialInstagram" placeholder="@youraccount" dir="ltr" style="text-align:right;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Store Preview -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">👁️ معاينة المتجر</div>
+            </div>
+            <div class="card-body" style="padding:0;overflow:hidden;border-radius:0 0 12px 12px;">
+              <div id="storePreview" style="background:linear-gradient(135deg,#6C5CE7,#00CEC9);padding:24px;text-align:center;color:white;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:background 0.5s;">
+                <div id="previewLogo" style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid rgba(255,255,255,0.3);">🛍️</div>
+                <h3 id="previewName" style="font-size:22px;font-weight:900;color:white;margin:0;">اسم متجرك</h3>
+                <p id="previewDesc" style="font-size:13px;color:rgba(255,255,255,0.8);margin:0;">وصف المتجر</p>
+                <div style="background:white;border-radius:20px;padding:8px 20px;font-size:13px;font-weight:700;color:#6C5CE7;margin-top:8px;">
+                  اطلب الآن 🛒
+                </div>
+              </div>
+              <div style="padding:16px;text-align:center;">
+                <a id="previewLink" href="#" target="_blank" class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:6px;">
+                  🔗 فتح المتجر الحقيقي
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;margin-top:24px;padding:20px;background:white;border-radius:var(--radius);box-shadow:var(--shadow-sm);">
+        <button class="btn btn-primary btn-lg" onclick="saveStore()">💾 حفظ جميع الإعدادات</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  if (!initDashboard()) {}
+
+  let storeData = null;
+
+  async function loadStore() {
+    try {
+      const result = await api.getStore();
+      storeData = result.data;
+      fillForm(storeData);
+    } catch (err) {
+      if (err.status !== 404) {
+        Toast.error('خطأ', 'فشل في تحميل إعدادات المتجر');
+      }
+    }
+  }
+
+  function fillForm(store) {
+    if (!store) return;
+    
+    document.getElementById('storeName').value = store.name || '';
+    document.getElementById('storeSubdomain').value = store.subdomain || '';
+    document.getElementById('storeDescription').value = store.description || '';
+    document.getElementById('storeLogo').value = store.logo || '';
+    document.getElementById('seoTitle').value = store.seoTitle || '';
+    document.getElementById('seoDescription').value = store.seoDescription || '';
+    
+    // Colors
+    const primary = store.primaryColor || '#6C5CE7';
+    const secondary = store.secondaryColor || '#00CEC9';
+    document.getElementById('primaryColor').value = primary;
+    document.getElementById('primaryColorText').value = primary;
+    document.getElementById('secondaryColor').value = secondary;
+    document.getElementById('secondaryColorText').value = secondary;
+    
+    // Settings
+    const settings = store.settings || {};
+    document.getElementById('shippingProvider').value = settings.shippingProvider || 'yalidine';
+    document.getElementById('freeShipping').checked = settings.freeShipping || false;
+    document.getElementById('stopDesk').checked = settings.stopDesk || false;
+    document.getElementById('yalidineApiId').value = settings.yalidineApiId || '';
+    document.getElementById('yalidineApiToken').value = settings.yalidineApiToken || '';
+    document.getElementById('ecotrackApiKey').value = settings.ecotrackApiKey || '';
+    
+    // Social
+    const social = store.socialLinks || {};
+    document.getElementById('socialWhatsapp').value = social.whatsapp || '';
+    document.getElementById('socialFacebook').value = social.facebook || '';
+    document.getElementById('socialInstagram').value = social.instagram || '';
+
+    // Preview & store link
+    const storeUrl = `/store/${store.subdomain}`;
+    document.getElementById('viewStoreBtn').href = storeUrl;
+    document.getElementById('previewLink').href = storeUrl;
+
+    updatePreview();
+    updateLogoPreview();
+  }
+
+  function updatePreview() {
+    const name = document.getElementById('storeName').value || 'اسم متجرك';
+    const desc = document.getElementById('storeDescription').value || 'وصف المتجر';
+    const primary = document.getElementById('primaryColor').value || '#6C5CE7';
+    const secondary = document.getElementById('secondaryColor').value || '#00CEC9';
+    
+    document.getElementById('previewName').textContent = name;
+    document.getElementById('previewDesc').textContent = desc;
+    document.getElementById('storePreview').style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+    document.querySelector('#storePreview .btn, #storePreview div:last-child').style.color = primary;
+  }
+
+  function updateLogoPreview() {
+    const url = document.getElementById('storeLogo').value.trim();
+    const preview = document.getElementById('logoPreview');
+    const img = document.getElementById('logoImg');
+    
+    if (url) {
+      img.src = url;
+      preview.style.display = 'block';
+      // Update preview logo
+      document.getElementById('previewLogo').innerHTML = `<img src="${escapeHtml(url)}" style="width:100%;height:100%;object-fit:contain;border-radius:8px;">`;
+    } else {
+      preview.style.display = 'none';
+      document.getElementById('previewLogo').innerHTML = '🛍️';
+    }
+  }
+
+  function setColorPreset(primary, secondary) {
+    document.getElementById('primaryColor').value = primary;
+    document.getElementById('primaryColorText').value = primary;
+    document.getElementById('secondaryColor').value = secondary;
+    document.getElementById('secondaryColorText').value = secondary;
+    updatePreview();
+  }
+
+  // Color sync
+  document.getElementById('primaryColor').addEventListener('input', function() {
+    document.getElementById('primaryColorText').value = this.value;
+    updatePreview();
+  });
+  document.getElementById('secondaryColor').addEventListener('input', function() {
+    document.getElementById('secondaryColorText').value = this.value;
+    updatePreview();
+  });
+  document.getElementById('primaryColorText').addEventListener('input', function() {
+    if (/^#[0-9A-Fa-f]{6}$/.test(this.value)) {
+      document.getElementById('primaryColor').value = this.value;
+      updatePreview();
+    }
+  });
+  document.getElementById('secondaryColorText').addEventListener('input', function() {
+    if (/^#[0-9A-Fa-f]{6}$/.test(this.value)) {
+      document.getElementById('secondaryColor').value = this.value;
+      updatePreview();
+    }
+  });
+
+  // Live preview update
+  ['storeName', 'storeDescription'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePreview);
+  });
+  document.getElementById('storeLogo').addEventListener('input', updateLogoPreview);
+
+  async function saveStore() {
+    const data = {
+      name: document.getElementById('storeName').value.trim(),
+      description: document.getElementById('storeDescription').value.trim(),
+      logo: document.getElementById('storeLogo').value.trim(),
+      primaryColor: document.getElementById('primaryColor').value,
+      secondaryColor: document.getElementById('secondaryColor').value,
+      seoTitle: document.getElementById('seoTitle').value.trim(),
+      seoDescription: document.getElementById('seoDescription').value.trim(),
+      settings: {
+        shippingProvider: document.getElementById('shippingProvider').value,
+        freeShipping: document.getElementById('freeShipping').checked,
+        stopDesk: document.getElementById('stopDesk').checked,
+        yalidineApiId: document.getElementById('yalidineApiId').value.trim(),
+        yalidineApiToken: document.getElementById('yalidineApiToken').value.trim(),
+        ecotrackApiKey: document.getElementById('ecotrackApiKey').value.trim(),
+      },
+      socialLinks: {
+        whatsapp: document.getElementById('socialWhatsapp').value.trim(),
+        facebook: document.getElementById('socialFacebook').value.trim(),
+        instagram: document.getElementById('socialInstagram').value.trim(),
+      }
+    };
+
+    const successAlert = document.getElementById('successAlert');
+    const errorAlert = document.getElementById('errorAlert');
+    successAlert.style.display = 'none';
+    errorAlert.style.display = 'none';
+
+    try {
+      await api.updateStore(data);
+      successAlert.style.display = 'flex';
+      Toast.success('تم الحفظ', 'تم تحديث إعدادات المتجر بنجاح');
+      successAlert.scrollIntoView({ behavior: 'smooth' });
+      
+      setTimeout(() => { successAlert.style.display = 'none'; }, 4000);
+    } catch (err) {
+      errorAlert.textContent = err.message;
+      errorAlert.style.display = 'flex';
+      Toast.error('خطأ', err.message);
+    }
+  }
+
+  loadStore();
+</script>
+</body>
+</html>
